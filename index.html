@@ -58,6 +58,8 @@
     .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; } .customer-row { display:grid; grid-template-columns:1fr 150px; gap:10px; }
     .btn { padding:12px 15px; color:#fff; background:var(--primary); } .btn:hover { background:var(--primary-dark); } .btn.full { width:100%; margin-top:14px; } .btn.secondary { color:var(--primary); background:#ccfbf1; } .btn.warning { background:var(--accent); } .btn.dark { background:#334155; }
     .service-tabs { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:5px; background:var(--bg); border-radius:12px; margin:16px 0; } .service-tabs button { padding:10px; border:0; border-radius:8px; background:transparent; color:var(--muted); font-weight:800; cursor:pointer; } .service-tabs button.active { color:var(--primary); background:var(--card); box-shadow:0 2px 8px rgba(0,0,0,.08); }
+    .custom-items { background:linear-gradient(135deg, rgba(12,93,156,.04), rgba(11,184,166,.04)); border:1px solid var(--line); border-radius:16px; padding:16px; margin:16px 0; }
+    .custom-items h3 { margin:0 0 10px; font-size:16px; }
     .table-wrap { overflow-x:auto; } table { width:100%; border-collapse:collapse; margin-top:18px; font-size:13px; } th,td { padding:11px 8px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap; } th { color:var(--muted); font-size:11px; text-transform:uppercase; } .del-btn { color:var(--danger); cursor:pointer; font-weight:900; text-align:center; }
     .empty { color:var(--muted); text-align:center; padding:22px 8px; }
     .summary { position:sticky; top:18px; } .summary-head { display:flex; justify-content:space-between; align-items:start; } .bill-no { color:var(--muted); font-size:12px; } .summary-total { display:flex; justify-content:space-between; align-items:end; padding:18px 0; margin-top:15px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); } .summary-total strong { color:var(--primary); font-size:32px; } .summary-line { display:flex; justify-content:space-between; padding:6px 0; color:var(--muted); font-size:14px; } .summary-line.discount { color:#16a34a; }
@@ -121,6 +123,44 @@
         <button class="btn secondary full" onclick="saveCustomer()">＋ Save customer</button>
 
         <div class="service-tabs"><button id="pcTab" class="active" onclick="setMode('Per Pc')">Per Piece</button><button id="kgTab" onclick="setMode('Per Kg')">By Weight</button></div>
+
+        <div class="custom-items no-print">
+          <h3>Add item to category</h3>
+          <div class="grid-2">
+            <div>
+              <label>Category</label>
+              <select id="customCategory">
+                <option value="Gents Wear">Gents Wear</option>
+                <option value="Ladies Wear">Ladies Wear</option>
+                <option value="Household & Bedding">Household & Bedding</option>
+              </select>
+            </div>
+            <div>
+              <label>Item name</label>
+              <input id="customItemName" placeholder="e.g. Jacket / Hoodie">
+            </div>
+          </div>
+          <div class="grid-2">
+            <div>
+              <label>Wash & Fold</label>
+              <input id="customPrice0" type="number" min="0" value="0">
+            </div>
+            <div>
+              <label>Wash & Iron</label>
+              <input id="customPrice1" type="number" min="0" value="0">
+            </div>
+            <div>
+              <label>Dry Clean</label>
+              <input id="customPrice2" type="number" min="0" value="0">
+            </div>
+            <div>
+              <label>Steam Press</label>
+              <input id="customPrice3" type="number" min="0" value="0">
+            </div>
+          </div>
+          <button class="btn full" onclick="addCustomItemOption()">＋ Add item to list</button>
+        </div>
+
         <div id="pcSection">
           <label>Item category</label><select id="itemSelect">
             <optgroup label="Gents Wear"><option value="Shirt / T-Shirt|20|30|60|10">Shirt / T-Shirt</option><option value="Pant / Trouser / Jeans|20|30|60|10">Pant / Trouser / Jeans</option><option value="Kurta Pyjama (Set)|50|70|100|20">Kurta Pyjama (Set)</option><option value="Blazer / Coat|0|50|150|50">Blazer / Coat</option><option value="Suit (2 Pc / 3 Pc)|0|70|220|70">Suit (2 Pc / 3 Pc)</option><option value="Jacket / Sweater|0|40|120|30">Jacket / Sweater</option></optgroup>
@@ -160,6 +200,67 @@
   function addPcItem() { const data=$('itemSelect').value.split('|'), idx=Number($('pcService').value), qty=Math.max(1,parseInt($('itemQty').value)||1), rate=Number(data[idx+1]); if(!rate){ alert(data[0]+' ke liye '+serviceNames[idx]+' available nahi hai!'); return; } cart.push({name:data[0],service:serviceNames[idx],qty,total:rate*qty}); updateTable(); }
   function addKgItem() { const data=$('kgService').value.split('|'), weight=parseFloat($('weightQty').value)||0; if(weight<=0){alert('Kripya vajan (Kg) bharein!');return;} const finalWeight=Math.max(3,weight); cart.push({name:'Laundry ('+weight+' Kg)',service:data[0],qty:finalWeight+' Kg',total:Math.round(finalWeight*Number(data[1]))}); updateTable(); }
   function removeItem(index) { cart.splice(index,1); updateTable(); }
+
+  function addCustomItemOption() {
+    const category = $('customCategory').value;
+    const name = $('customItemName').value.trim();
+    const prices = [0,1,2,3].map(i => Number($('customPrice'+i).value) || 0);
+
+    if (!name) {
+      alert('Item name enter karein!');
+      return;
+    }
+
+    const hasPrice = prices.some(v => v > 0);
+    if (!hasPrice) {
+      alert('Kam se kam ek service ka rate daalen!');
+      return;
+    }
+
+    const select = $('itemSelect');
+    let group = Array.from(select.querySelectorAll('optgroup')).find(g => g.label === category);
+    if (!group) {
+      group = document.createElement('optgroup');
+      group.label = category;
+      select.appendChild(group);
+    }
+
+    const optionValue = `${name}|${prices.join('|')}`;
+    const option = new Option(name, optionValue);
+    group.appendChild(option);
+    select.value = optionValue;
+
+    const saved = JSON.parse(localStorage.getItem('cnfCustomItems') || '[]');
+    const item = { category, name, prices };
+    const exists = saved.some(x => x.category === category && x.name === name);
+    if (!exists) {
+      saved.push(item);
+      localStorage.setItem('cnfCustomItems', JSON.stringify(saved));
+    }
+
+    $('customItemName').value='';
+    ['0','1','2','3'].forEach(id => $('customPrice'+id).value = 0);
+    showToast('Custom item added');
+  }
+
+  function loadCustomItems() {
+    const saved = JSON.parse(localStorage.getItem('cnfCustomItems') || '[]');
+    const select = $('itemSelect');
+    saved.forEach(item => {
+      let group = Array.from(select.querySelectorAll('optgroup')).find(g => g.label === item.category);
+      if (!group) {
+        group = document.createElement('optgroup');
+        group.label = item.category;
+        select.appendChild(group);
+      }
+      const optionValue = `${item.name}|${item.prices.join('|')}`;
+      const exists = Array.from(group.options).some(opt => opt.value === optionValue);
+      if (!exists) {
+        group.appendChild(new Option(item.name, optionValue));
+      }
+    });
+  }
+
   function updateTable() { let subtotal=cart.reduce((sum,item)=>sum+item.total,0), discount=Math.min(100,Math.max(0,Number($('discount').value)||0)), discountAmount=subtotal*discount/100; $('subtotal').textContent=money(subtotal); $('discountAmount').textContent='− '+money(discountAmount); $('grandTotal').textContent=money(subtotal-discountAmount); $('customerPreview').textContent=$('custName').value.trim()||'Valued Customer'; const tbody=$('cartTable'); tbody.innerHTML=''; if(!cart.length){tbody.innerHTML='<tr><td colspan="5" class="empty">No items added yet</td></tr>';return;} cart.forEach((item,i)=>{const tr=document.createElement('tr'); [item.name,item.service,item.qty,money(item.total)].forEach(text=>{const td=document.createElement('td');td.textContent=text;tr.appendChild(td);}); const del=document.createElement('td');del.textContent='✕';del.className='del-btn';del.onclick=()=>removeItem(i);tr.appendChild(del);tbody.appendChild(tr);}); }
   function billNumber(){ return 'Bill #'+new Date().toLocaleDateString('en-IN').replaceAll('/','')+'-'+String(Date.now()).slice(-4); }
   function saveCustomer(){const name=$('custName').value.trim(),phone=$('custPhone').value.trim();if(!name||!phone){alert('Customer name aur mobile number bharein!');return;}let customers=JSON.parse(localStorage.getItem('cnfCustomers')||'[]');if(!customers.some(c=>c.phone===phone))customers.push({name,phone});localStorage.setItem('cnfCustomers',JSON.stringify(customers));populateCustomers();showToast('Customer saved');}
@@ -170,7 +271,7 @@
   function newBill(){if(cart.length&&!confirm('Start a new bill?'))return;cart=[];$('custName').value='';$('custPhone').value='';$('discount').value=0;$('payment').value='Pending';$('billNo').textContent=billNumber();updateTable();showToast('New bill started');}
   function toggleTheme(){document.body.classList.toggle('dark');localStorage.setItem('cnfTheme',document.body.classList.contains('dark')?'dark':'light');}
   function showToast(text){const t=$('toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
-  $('custName').addEventListener('input',updateTable); $('custPhone').addEventListener('input',updateTable); $('billNo').textContent=billNumber(); populateCustomers(); if(localStorage.getItem('cnfTheme')==='dark')document.body.classList.add('dark'); updateTable();
+  $('custName').addEventListener('input',updateTable); $('custPhone').addEventListener('input',updateTable); $('billNo').textContent=billNumber(); populateCustomers(); loadCustomItems(); if(localStorage.getItem('cnfTheme')==='dark')document.body.classList.add('dark'); updateTable();
 </script>
 </body>
 </html>
