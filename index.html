@@ -46,6 +46,9 @@
       display:inline-block; padding:4px 12px; border-radius:12px; background:linear-gradient(135deg,#0d5cba,#0a89d7 52%, #0a9bb8); color:#fff; box-shadow:0 12px 20px rgba(12,92,156,.22);
     }
     .tagline { color:var(--muted); font-size:13px; margin-top:5px; }
+    .nav-tabs { display:flex; gap:8px; margin-top:12px; }
+    .nav-btn { padding:8px 14px; border:0; border-radius:10px; background:var(--bg); color:var(--muted); cursor:pointer; font-weight:700; transition:.2s; }
+    .nav-btn.active { background:var(--primary); color:#fff; }
     .icon-btn,.btn { border:0; border-radius:10px; cursor:pointer; font-weight:700; transition:.2s; }
     .icon-btn { width:42px; height:42px; background:var(--card); color:var(--text); box-shadow:var(--shadow); font-size:18px; }
     .icon-btn:hover,.btn:hover { transform:translateY(-1px); }
@@ -55,23 +58,34 @@
     label { display:block; margin:14px 0 6px; color:var(--muted); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; }
     input,select { width:100%; padding:12px 13px; border:1px solid var(--line); border-radius:10px; background:var(--card); color:var(--text); font:inherit; outline:none; }
     input:focus,select:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(20,184,166,.15); }
-    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; } .customer-row { display:grid; grid-template-columns:1fr 150px; gap:10px; }
-    .btn { padding:12px 15px; color:#fff; background:var(--primary); } .btn:hover { background:var(--primary-dark); } .btn.full { width:100%; margin-top:14px; } .btn.secondary { color:var(--primary); background:#ccfbf1; } .btn.warning { background:var(--accent); } .btn.dark { background:#334155; } .btn.danger { background:#ef4444; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; } .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+    .customer-row { display:grid; grid-template-columns:1fr 150px; gap:10px; }
+    .btn { padding:12px 15px; color:#fff; background:var(--primary); } .btn:hover { background:var(--primary-dark); } .btn.full { width:100%; margin-top:14px; } .btn.secondary { color:var(--primary); background:#ccfbf1; } .btn.warning { background:var(--accent); } .btn.dark { background:#334155; } .btn.danger { background:#ef4444; } .btn.small { padding:8px 12px; font-size:12px; }
     .service-tabs { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:5px; background:var(--bg); border-radius:12px; margin:16px 0; } .service-tabs button { padding:10px; border:0; border-radius:8px; background:transparent; color:var(--muted); font-weight:800; cursor:pointer; } .service-tabs button.active { color:var(--primary); background:var(--card); box-shadow:0 2px 8px rgba(0,0,0,.08); }
-    .custom-items { background:linear-gradient(135deg, rgba(12,93,156,.04), rgba(11,184,166,.04)); border:1px solid var(--line); border-radius:16px; padding:16px; margin:16px 0; }
-    .custom-items h3 { margin:0 0 10px; font-size:16px; }
-    .saved-bills { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); }
-    .saved-bills-list { margin-top:10px; max-height:180px; overflow:auto; display:grid; gap:8px; }
-    .bill-item { display:flex; justify-content:space-between; gap:8px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:rgba(15,118,110,.02); }
-    .bill-item .meta { font-size:12px; color:var(--muted); }
+    .dropdown-section { background:linear-gradient(135deg, rgba(12,93,156,.04), rgba(11,184,166,.04)); border:1px solid var(--line); border-radius:16px; padding:16px; margin:16px 0; }
+    .dropdown-header { display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:700; }
+    .dropdown-header:hover { color:var(--primary); }
+    .dropdown-content { display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
+    .dropdown-content.open { display:block; }
     .table-wrap { overflow-x:auto; } table { width:100%; border-collapse:collapse; margin-top:18px; font-size:13px; } th,td { padding:11px 8px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap; } th { color:var(--muted); font-size:11px; text-transform:uppercase; } .del-btn { color:var(--danger); cursor:pointer; font-weight:900; text-align:center; }
     .empty { color:var(--muted); text-align:center; padding:22px 8px; }
     .summary { position:sticky; top:18px; } .summary-head { display:flex; justify-content:space-between; align-items:start; } .bill-no { color:var(--muted); font-size:12px; } .summary-total { display:flex; justify-content:space-between; align-items:end; padding:18px 0; margin-top:15px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); } .summary-total strong { color:var(--primary); font-size:32px; } .summary-line { display:flex; justify-content:space-between; padding:6px 0; color:var(--muted); font-size:14px; } .summary-line.discount { color:#16a34a; }
-    .actions { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:15px; } .actions .btn { font-size:13px; } .saved { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); } .saved select { margin-top:7px; }
-    .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; pointer-events:none; background:#16302b; color:#fff; padding:11px 16px; border-radius:10px; font-size:13px; transition:.25s; z-index:5; } .toast.show { opacity:1; transform:translateX(-50%) translateY:0; }
-    @media(max-width:760px) { body { padding:10px; } .layout { grid-template-columns:1fr; } .summary { position:static; } .customer-row { grid-template-columns:1fr; } .card { padding:16px; border-radius:16px; } }
-    @media(max-width:420px) { .grid-2 { grid-template-columns:1fr; } .actions { grid-template-columns:1fr; } .brand { gap:10px; } .brand-copy h1 { font-size:22px; padding:4px 8px; } }
-    @media print { body { padding:0; background:#fff; } .topbar,.entry-card,.actions,.saved,.no-print { display:none!important; } .layout { display:block; } .card { box-shadow:none; border:0; padding:0; } .summary { display:block; } .summary-total strong { color:#000; } }
+    .actions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px; margin-top:15px; } .actions .btn { font-size:12px; }
+    .saved { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); } .saved select { margin-top:7px; }
+    .saved-bills-list { margin-top:10px; max-height:180px; overflow:auto; display:grid; gap:8px; }
+    .bill-item { display:flex; justify-content:space-between; gap:8px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:rgba(15,118,110,.02); cursor:pointer; transition:.2s; }
+    .bill-item:hover { background:rgba(15,118,110,.08); }
+    .bill-item .meta { font-size:12px; color:var(--muted); }
+    .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; pointer-events:none; background:#16302b; color:#fff; padding:11px 16px; border-radius:10px; font-size:13px; transition:.25s; z-index:5; } .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    .sales-table { margin-top:18px; }
+    .sales-table table { font-size:12px; }
+    .sales-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px; }
+    .stat-card { background:linear-gradient(135deg, rgba(12,93,156,.06), rgba(11,184,166,.06)); border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center; }
+    .stat-card .label { color:var(--muted); font-size:11px; font-weight:800; }
+    .stat-card .value { font-size:24px; font-weight:900; color:var(--primary); margin-top:4px; }
+    @media(max-width:760px) { body { padding:10px; } .layout { grid-template-columns:1fr; } .summary { position:static; } .customer-row { grid-template-columns:1fr; } .card { padding:16px; border-radius:16px; } .actions { grid-template-columns:1fr 1fr; } .grid-3 { grid-template-columns:1fr 1fr; } }
+    @media(max-width:420px) { .grid-2,.grid-3 { grid-template-columns:1fr; } .actions { grid-template-columns:1fr; } .brand { gap:10px; } .brand-copy h1 { font-size:22px; padding:4px 8px; } }
+    @media print { body { padding:0; background:#fff; } .topbar,.entry-card,.actions,.saved,.no-print,.nav-tabs { display:none!important; } .layout { display:block; } .card { box-shadow:none; border:0; padding:0; } .summary { display:block; } .summary-total strong { color:#000; } table { font-size:11px; } }
   </style>
 </head>
 <body>
@@ -119,96 +133,160 @@
       <button class="icon-btn" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">◐</button>
     </header>
 
-    <div class="layout">
-      <section class="card entry-card">
-        <h2>Create New Bill</h2><div class="section-note">Add services and share a professional bill with your customer.</div>
-        <label>Customer details</label>
-        <div class="customer-row"><input id="custName" placeholder="Customer name"><input id="custPhone" type="tel" inputmode="numeric" placeholder="Mobile number"></div>
-        <button class="btn secondary full" onclick="saveCustomer()">＋ Save customer</button>
+    <div class="nav-tabs no-print">
+      <button class="nav-btn active" onclick="showTab('bill')">📝 New Bill</button>
+      <button class="nav-btn" onclick="showTab('sales')">📊 Sales</button>
+    </div>
 
-        <div class="service-tabs"><button id="pcTab" class="active" onclick="setMode('Per Pc')">Per Piece</button><button id="kgTab" onclick="setMode('Per Kg')">By Weight</button></div>
+    <div id="billTab" class="tab-content">
+      <div class="layout">
+        <section class="card entry-card">
+          <h2>Create New Bill</h2><div class="section-note">Add services and share a professional bill with your customer.</div>
+          <label>Customer details</label>
+          <div class="customer-row"><input id="custName" placeholder="Customer name"><input id="custPhone" type="tel" inputmode="numeric" placeholder="Mobile number"></div>
+          <button class="btn secondary full" onclick="saveCustomer()">＋ Save customer</button>
 
-        <div class="custom-items no-print">
-          <h3>Add item to category</h3>
           <div class="grid-2">
             <div>
-              <label>Category</label>
-              <select id="customCategory">
-                <option value="Gents Wear">Gents Wear</option>
-                <option value="Ladies Wear">Ladies Wear</option>
-                <option value="Household & Bedding">Household & Bedding</option>
-              </select>
+              <label>Item Received Date</label>
+              <input id="receivedDate" type="date">
             </div>
             <div>
-              <label>Item name</label>
-              <input id="customItemName" placeholder="e.g. Jacket / Hoodie">
+              <label>Delivery Date</label>
+              <input id="deliveryDate" type="date">
             </div>
           </div>
-          <div class="grid-2">
-            <div>
-              <label>Wash & Fold</label>
-              <input id="customPrice0" type="number" min="0" value="0">
+
+          <div class="service-tabs"><button id="pcTab" class="active" onclick="setMode('Per Pc')">Per Piece</button><button id="kgTab" onclick="setMode('Per Kg')">By Weight</button></div>
+
+          <div class="dropdown-section">
+            <div class="dropdown-header" onclick="toggleDropdown('itemDropdown')">
+              <span>⚙️ Add Item to Category</span>
+              <span id="dropdownArrow">▼</span>
             </div>
-            <div>
-              <label>Wash & Iron</label>
-              <input id="customPrice1" type="number" min="0" value="0">
-            </div>
-            <div>
-              <label>Dry Clean</label>
-              <input id="customPrice2" type="number" min="0" value="0">
-            </div>
-            <div>
-              <label>Steam Press</label>
-              <input id="customPrice3" type="number" min="0" value="0">
+            <div id="itemDropdown" class="dropdown-content">
+              <div class="grid-2">
+                <div>
+                  <label>Category</label>
+                  <select id="customCategory">
+                    <option value="Gents Wear">Gents Wear</option>
+                    <option value="Ladies Wear">Ladies Wear</option>
+                    <option value="Household & Bedding">Household & Bedding</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Item name</label>
+                  <input id="customItemName" placeholder="e.g. Jacket / Hoodie">
+                </div>
+              </div>
+              <div class="grid-2">
+                <div>
+                  <label>Wash & Fold</label>
+                  <input id="customPrice0" type="number" min="0" value="0">
+                </div>
+                <div>
+                  <label>Wash & Iron</label>
+                  <input id="customPrice1" type="number" min="0" value="0">
+                </div>
+                <div>
+                  <label>Dry Clean</label>
+                  <input id="customPrice2" type="number" min="0" value="0">
+                </div>
+                <div>
+                  <label>Steam Press</label>
+                  <input id="customPrice3" type="number" min="0" value="0">
+                </div>
+              </div>
+              <button class="btn full" onclick="addCustomItemOption()">＋ Add item to list</button>
+              <div style="margin-top:14px;">
+                <label>Manage custom items</label>
+                <select id="customItemManager"></select>
+                <div class="grid-2" style="margin-top:10px;">
+                  <button class="btn danger small full" onclick="removeCustomItem()">Delete</button>
+                  <button class="btn dark small full" onclick="resetCustomItems()">Reset all</button>
+                </div>
+              </div>
             </div>
           </div>
-          <button class="btn full" onclick="addCustomItemOption()">＋ Add item to list</button>
-          <div style="margin-top:16px;">
-            <label>Manage custom items</label>
-            <select id="customItemManager"></select>
-            <div class="grid-2" style="margin-top:10px;">
-              <button class="btn danger full" onclick="removeCustomItem()">Delete selected</button>
-              <button class="btn dark full" onclick="resetCustomItems()">Reset all</button>
-            </div>
+
+          <div id="pcSection">
+            <label>Item category</label><select id="itemSelect">
+              <optgroup label="Gents Wear"><option value="Shirt / T-Shirt|20|30|60|10">Shirt / T-Shirt</option><option value="Pant / Trouser / Jeans|20|30|60|10">Pant / Trouser / Jeans</option><option value="Kurta Pyjama (Set)|50|70|100|20">Kurta Pyjama (Set)</option><option value="Blazer / Coat|0|50|150|50">Blazer / Coat</option><option value="Suit (2 Pc / 3 Pc)|0|70|220|70">Suit (2 Pc / 3 Pc)</option><option value="Jacket / Sweater|0|40|120|30">Jacket / Sweater</option></optgroup>
+              <optgroup label="Ladies Wear"><option value="Top / Kurti|20|30|50|10">Top / Kurti</option><option value="Dress / Frock|50|70|100|20">Dress / Frock</option><option value="Saree (Cotton/Normal)|60|90|120|30">Saree (Cotton/Normal)</option><option value="Saree (Silk/Heavy/Zari)|0|100|250|100">Saree (Silk/Heavy/Zari)</option><option value="Lehenga (Heavy)|0|150|450|150">Lehenga (Heavy)</option></optgroup>
+              <optgroup label="Household & Bedding"><option value="Bedsheet Single|100|120|100|40">Bedsheet Single</option><option value="Bedsheet Double|140|160|140|50">Bedsheet Double</option><option value="Blanket Single (1 Ply)|200|200|200|0">Blanket Single (1 Ply)</option><option value="Blanket Double (2 Ply)|400|400|400|0">Blanket Double (2 Ply)</option><option value="Curtain (Per Panel)|60|80|100|30">Curtain (Per Panel)</option></optgroup>
+            </select>
+            <div class="grid-2"><div><label>Service type</label><select id="pcService"><option value="0">Wash & Fold</option><option value="1">Wash & Iron</option><option value="2">Dry Clean</option><option value="3">Steam Press Only</option></select></div><div><label>Quantity</label><input id="itemQty" type="number" min="1" value="1"></div></div>
+            <button class="btn full" onclick="addPcItem()">＋ Add item to bill</button>
+          </div>
+          <div id="kgSection" hidden><div class="grid-2"><div><label>Kg service</label><select id="kgService"><option value="Wash & Fold|70">Wash & Fold (₹70/kg)</option><option value="Wash & Iron|90">Wash & Iron (₹90/kg)</option><option value="Premium Wash|120">Premium Wash (₹120/kg)</option></select></div><div><label>Weight (minimum 3 kg)</label><input id="weightQty" type="number" min="0.5" step="0.5" placeholder="e.g. 4.5"></div></div><button class="btn full" onclick="addKgItem()">＋ Add weight order</button></div>
+
+          <div class="table-wrap"><table><thead><tr><th>Item</th><th>Service</th><th>Qty</th><th>Total</th><th></th></tr></thead><tbody id="cartTable"><tr><td colspan="5" class="empty">No items added yet</td></tr></tbody></table></div>
+        </section>
+
+        <aside class="card summary" id="invoice">
+          <div class="summary-head"><div><h2>Bill Summary</h2><div class="bill-no" id="billNo"></div></div><span>🧺</span></div>
+          <div id="customerPreview" class="section-note" style="margin-top:18px">Valued Customer</div>
+          <div class="summary-line"><span>Subtotal</span><b id="subtotal">₹0</b></div>
+          <div class="grid-2 no-print"><div><label>Discount (%)</label><input id="discount" type="number" min="0" max="100" value="0" oninput="updateTable()"></div><div><label>Payment</label><select id="payment"><option>Pending</option><option>Paid</option><option>Cash</option><option>UPI</option></select></div></div>
+          <div class="summary-line discount"><span>Discount</span><b id="discountAmount">− ₹0</b></div>
+          <div class="summary-total"><span>Total payable</span><strong id="grandTotal">₹0</strong></div>
+          <div class="actions no-print"><button class="btn warning" onclick="printInvoice()">🖨 Print</button><button class="btn" onclick="saveBillManual()">💾 Save Bill</button><button class="btn" onclick="sendWhatsApp()">📱 WhatsApp</button></div>
+          <button class="btn dark full no-print" onclick="newBill()">＋ New bill</button>
+          <div class="saved no-print"><label>Saved customers</label><select id="savedCustomers" onchange="loadCustomer()"><option value="">Choose a saved customer</option></select></div>
+
+          <div class="saved no-print">
+            <label>Saved bills</label>
+            <div id="savedBillsList" class="saved-bills-list"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <div id="salesTab" class="tab-content" style="display:none;">
+      <div class="card">
+        <h2>Sales Report</h2>
+        <div class="section-note">View all saved bills and sales history</div>
+        
+        <div class="sales-stats">
+          <div class="stat-card">
+            <div class="label">Total Bills</div>
+            <div class="value" id="totalBillsCount">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Total Revenue</div>
+            <div class="value" id="totalRevenueAmount">₹0</div>
           </div>
         </div>
 
-        <div id="pcSection">
-          <label>Item category</label><select id="itemSelect">
-            <optgroup label="Gents Wear"><option value="Shirt / T-Shirt|20|30|60|10">Shirt / T-Shirt</option><option value="Pant / Trouser / Jeans|20|30|60|10">Pant / Trouser / Jeans</option><option value="Kurta Pyjama (Set)|50|70|100|20">Kurta Pyjama (Set)</option><option value="Blazer / Coat|0|50|150|50">Blazer / Coat</option><option value="Suit (2 Pc / 3 Pc)|0|70|220|70">Suit (2 Pc / 3 Pc)</option><option value="Jacket / Sweater|0|40|120|30">Jacket / Sweater</option></optgroup>
-            <optgroup label="Ladies Wear"><option value="Top / Kurti|20|30|50|10">Top / Kurti</option><option value="Dress / Frock|50|70|100|20">Dress / Frock</option><option value="Saree (Cotton/Normal)|60|90|120|30">Saree (Cotton/Normal)</option><option value="Saree (Silk/Heavy/Zari)|0|100|250|100">Saree (Silk/Heavy/Zari)</option><option value="Lehenga (Heavy)|0|150|450|150">Lehenga (Heavy)</option></optgroup>
-            <optgroup label="Household & Bedding"><option value="Bedsheet Single|100|120|100|40">Bedsheet Single</option><option value="Bedsheet Double|140|160|140|50">Bedsheet Double</option><option value="Blanket Single (1 Ply)|200|200|200|0">Blanket Single (1 Ply)</option><option value="Blanket Double (2 Ply)|400|400|400|0">Blanket Double (2 Ply)</option><option value="Curtain (Per Panel)|60|80|100|30">Curtain (Per Panel)</option></optgroup>
-          </select>
-          <div class="grid-2"><div><label>Service type</label><select id="pcService"><option value="0">Wash & Fold</option><option value="1">Wash & Iron</option><option value="2">Dry Clean</option><option value="3">Steam Press Only</option></select></div><div><label>Quantity</label><input id="itemQty" type="number" min="1" value="1"></div></div>
-          <button class="btn full" onclick="addPcItem()">＋ Add item to bill</button>
+        <div class="sales-table">
+          <label>All Bills</label>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Bill No</th>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>Items</th>
+                  <th>Amount</th>
+                  <th>Received Date</th>
+                  <th>Delivery Date</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="salesTableBody">
+                <tr><td colspan="8" class="empty">No bills saved</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div id="kgSection" hidden><div class="grid-2"><div><label>Kg service</label><select id="kgService"><option value="Wash & Fold|70">Wash & Fold (₹70/kg)</option><option value="Wash & Iron|90">Wash & Iron (₹90/kg)</option><option value="Premium Wash|120">Premium Wash (₹120/kg)</option></select></div><div><label>Weight (minimum 3 kg)</label><input id="weightQty" type="number" min="0.5" step="0.5" placeholder="e.g. 4.5"></div></div><button class="btn full" onclick="addKgItem()">＋ Add weight order</button></div>
-
-        <div class="table-wrap"><table><thead><tr><th>Item</th><th>Service</th><th>Qty</th><th>Total</th><th></th></tr></thead><tbody id="cartTable"><tr><td colspan="5" class="empty">No items added yet</td></tr></tbody></table></div>
-      </section>
-
-      <aside class="card summary" id="invoice">
-        <div class="summary-head"><div><h2>Bill Summary</h2><div class="bill-no" id="billNo"></div></div><span>🧺</span></div>
-        <div id="customerPreview" class="section-note" style="margin-top:18px">Valued Customer</div>
-        <div class="summary-line"><span>Subtotal</span><b id="subtotal">₹0</b></div>
-        <div class="grid-2 no-print"><div><label>Discount (%)</label><input id="discount" type="number" min="0" max="100" value="0" oninput="updateTable()"></div><div><label>Payment</label><select id="payment"><option>Pending</option><option>Paid</option><option>Cash</option><option>UPI</option></select></div></div>
-        <div class="summary-line discount"><span>Discount</span><b id="discountAmount">− ₹0</b></div>
-        <div class="summary-total"><span>Total payable</span><strong id="grandTotal">₹0</strong></div>
-        <div class="actions no-print"><button class="btn warning" onclick="printInvoice()">🖨 Print invoice</button><button class="btn" onclick="sendWhatsApp()">📱 WhatsApp</button></div>
-        <button class="btn dark full no-print" onclick="newBill()">＋ New bill</button>
-        <div class="saved no-print"><label>Saved customers</label><select id="savedCustomers" onchange="loadCustomer()"><option value="">Choose a saved customer</option></select></div>
-
-        <div class="saved-bills no-print">
-          <label>Saved bills</label>
-          <div id="savedBillsList" class="saved-bills-list"></div>
-        </div>
-      </aside>
+      </div>
     </div>
   </main>
   <div id="toast" class="toast"></div>
 
 <script>
-  let cart = [], mode = 'Per Pc';
+  let cart = [], mode = 'Per Pc', billCounter = parseInt(localStorage.getItem('cnfBillCounter') || '100');
   const serviceNames = ['Wash & Fold','Wash & Iron','Dry Clean','Steam Press'];
   const money = value => '₹' + Math.round(value).toLocaleString('en-IN');
   const $ = id => document.getElementById(id);
@@ -243,11 +321,33 @@
     const customerName = $('custName').value.trim() || 'Valued Customer';
     const customerPhone = $('custPhone').value.trim();
     const total = $('grandTotal').textContent;
+    const receivedDate = $('receivedDate').value;
+    const deliveryDate = $('deliveryDate').value;
+    
     const saved = getSavedBills();
-    const entry = { billNo, customerName, customerPhone, total, timestamp: new Date().toISOString(), items: cart.map(item => ({ ...item })) };
+    const entry = { 
+      billNo, 
+      customerName, 
+      customerPhone, 
+      total, 
+      receivedDate,
+      deliveryDate,
+      timestamp: new Date().toISOString(), 
+      items: cart.map(item => ({ ...item })) 
+    };
     saved.unshift(entry);
-    localStorage.setItem('cnfSavedBills', JSON.stringify(saved.slice(0, 8)));
+    localStorage.setItem('cnfSavedBills', JSON.stringify(saved.slice(0, 100)));
     renderSavedBills();
+    renderSalesTable();
+  }
+
+  function saveBillManual() {
+    if (cart.length === 0) {
+      alert('Pehle kam se kam 1 item add karein!');
+      return;
+    }
+    saveBillRecord();
+    showToast('Bill saved successfully');
   }
 
   function renderSavedBills() {
@@ -259,7 +359,7 @@
       return;
     }
 
-    saved.forEach((bill) => {
+    saved.slice(0, 5).forEach((bill) => {
       const div = document.createElement('div');
       div.className = 'bill-item';
       div.innerHTML = `
@@ -278,13 +378,72 @@
     });
   }
 
+  function renderSalesTable() {
+    const saved = getSavedBills();
+    const tbody = $('salesTableBody');
+    tbody.innerHTML = '';
+    
+    if (!saved.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="empty">No bills saved</td></tr>';
+      return;
+    }
+
+    let totalRevenue = 0;
+    saved.forEach(bill => {
+      const tr = document.createElement('tr');
+      const amount = bill.total.replace('₹', '').replace(/,/g, '');
+      totalRevenue += parseInt(amount);
+      tr.innerHTML = `
+        <td>${bill.billNo}</td>
+        <td>${bill.customerName}</td>
+        <td>${bill.customerPhone || '-'}</td>
+        <td>${bill.items ? bill.items.length : 0}</td>
+        <td>${bill.total}</td>
+        <td>${bill.receivedDate || '-'}</td>
+        <td>${bill.deliveryDate || '-'}</td>
+        <td>${new Date(bill.timestamp).toLocaleDateString('en-IN')}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    $('totalBillsCount').textContent = saved.length;
+    $('totalRevenueAmount').textContent = money(totalRevenue);
+  }
+
   function loadSavedBill(bill) {
     $('custName').value = bill.customerName;
     $('custPhone').value = bill.customerPhone || '';
+    $('receivedDate').value = bill.receivedDate || '';
+    $('deliveryDate').value = bill.deliveryDate || '';
     $('billNo').textContent = bill.billNo;
     cart = JSON.parse(JSON.stringify(bill.items || []));
     updateTable();
+    showTab('bill');
     showToast('Saved bill loaded');
+  }
+
+  function toggleDropdown(id) {
+    const elem = $(id);
+    elem.classList.toggle('open');
+    const arrow = $('dropdownArrow');
+    if (elem.classList.contains('open')) {
+      arrow.textContent = '▲';
+    } else {
+      arrow.textContent = '▼';
+    }
+  }
+
+  function showTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    if (tabName === 'bill') {
+      $('billTab').style.display = 'block';
+      document.querySelector('.nav-btn:nth-child(1)').classList.add('active');
+    } else if (tabName === 'sales') {
+      $('salesTab').style.display = 'block';
+      document.querySelector('.nav-btn:nth-child(2)').classList.add('active');
+      renderSalesTable();
+    }
   }
 
   function setMode(next) { mode = next; $('pcSection').hidden = next !== 'Per Pc'; $('kgSection').hidden = next !== 'Per Kg'; $('pcTab').classList.toggle('active', next === 'Per Pc'); $('kgTab').classList.toggle('active', next === 'Per Kg'); }
@@ -390,16 +549,34 @@
   }
 
   function updateTable() { let subtotal=cart.reduce((sum,item)=>sum+item.total,0), discount=Math.min(100,Math.max(0,Number($('discount').value)||0)), discountAmount=subtotal*discount/100; $('subtotal').textContent=money(subtotal); $('discountAmount').textContent='− '+money(discountAmount); $('grandTotal').textContent=money(subtotal-discountAmount); $('customerPreview').textContent=$('custName').value.trim()||'Valued Customer'; const tbody=$('cartTable'); tbody.innerHTML=''; if(!cart.length){tbody.innerHTML='<tr><td colspan="5" class="empty">No items added yet</td></tr>';return;} cart.forEach((item,i)=>{const tr=document.createElement('tr'); [item.name,item.service,item.qty,money(item.total)].forEach(text=>{const td=document.createElement('td');td.textContent=text;tr.appendChild(td);}); const del=document.createElement('td');del.textContent='✕';del.className='del-btn';del.onclick=()=>removeItem(i);tr.appendChild(del);tbody.appendChild(tr);}); }
-  function billNumber(){ return 'Bill #'+new Date().toLocaleDateString('en-IN').replaceAll('/','')+'-'+String(Date.now()).slice(-4); }
+  
+  function billNumber(){ 
+    billCounter++;
+    localStorage.setItem('cnfBillCounter', billCounter);
+    return 'CnF-' + billCounter;
+  }
+
   function saveCustomer(){const name=$('custName').value.trim(),phone=$('custPhone').value.trim();if(!name||!phone){alert('Customer name aur mobile number bharein!');return;}let customers=JSON.parse(localStorage.getItem('cnfCustomers')||'[]');if(!customers.some(c=>c.phone===phone))customers.push({name,phone});localStorage.setItem('cnfCustomers',JSON.stringify(customers));populateCustomers();showToast('Customer saved');}
   function populateCustomers(){const select=$('savedCustomers'),customers=JSON.parse(localStorage.getItem('cnfCustomers')||'[]');select.innerHTML='<option value="">Choose a saved customer</option>';customers.forEach(c=>{const o=document.createElement('option');o.value=c.phone;o.textContent=c.name+' • '+c.phone;select.appendChild(o);});}
   function loadCustomer(){const phone=$('savedCustomers').value,customers=JSON.parse(localStorage.getItem('cnfCustomers')||'[]'),c=customers.find(x=>x.phone===phone);if(c){$('custName').value=c.name;$('custPhone').value=c.phone;updateTable();}}
-  function sendWhatsApp(){const phone=$('custPhone').value.replace(/\D/g,''),name=$('custName').value.trim()||'Valued Customer';if(!phone||cart.length===0){alert(!phone?'Customer ka mobile number bharein!':'Pehle kam se kam 1 item add karein!');return;}const discount=Number($('discount').value)||0;let list=cart.map((x,i)=>`${i+1}. ${x.name} (${x.service}) x ${x.qty} = ${money(x.total)}`).join('\n');const msg=`*CLEAN N FRESH LAUNDRY*\n${$('billNo').textContent}\n----------------------------\n*Customer:* ${name}\n*ITEMS:*\n${list}\n----------------------------\nSubtotal: ${$('subtotal').textContent}\nDiscount: ${discount}%\n*TOTAL BILL:* ${$('grandTotal').textContent}\n*Payment:* ${$('payment').value}\n----------------------------\nThank you for choosing Clean N Fresh!`;window.open('https://wa.me/91'+phone+'?text='+encodeURIComponent(msg),'_blank');saveBillRecord();}
+  
+  function sendWhatsApp(){const phone=$('custPhone').value.replace(/\D/g,''),name=$('custName').value.trim()||'Valued Customer';if(!phone||cart.length===0){alert(!phone?'Customer ka mobile number bharein!':'Pehle kam se kam 1 item add karein!');return;}const discount=Number($('discount').value)||0;let list=cart.map((x,i)=>`${i+1}. ${x.name} (${x.service}) x ${x.qty} = ${money(x.total)}`).join('\n');const msg=`*CLEAN N FRESH LAUNDRY*\n${$('billNo').textContent}\n----------------------------\n*Customer:* ${name}\n*Received:* ${$('receivedDate').value || '-'}\n*Delivery:* ${$('deliveryDate').value || '-'}\n*ITEMS:*\n${list}\n----------------------------\nSubtotal: ${$('subtotal').textContent}\nDiscount: ${discount}%\n*TOTAL BILL:* ${$('grandTotal').textContent}\n*Payment:* ${$('payment').value}\n----------------------------\nThank you for choosing Clean N Fresh!`;window.open('https://wa.me/91'+phone+'?text='+encodeURIComponent(msg),'_blank');saveBillRecord();}
+  
   function printInvoice(){if(!cart.length){alert('Pehle kam se kam 1 item add karein!');return;}saveBillRecord();window.print();}
-  function newBill(){if(cart.length&&!confirm('Start a new bill?'))return;cart=[];$('custName').value='';$('custPhone').value='';$('discount').value=0;$('payment').value='Pending';$('billNo').textContent=billNumber();updateTable();showToast('New bill started');}
+  
+  function newBill(){if(cart.length&&!confirm('Start a new bill?'))return;cart=[];$('custName').value='';$('custPhone').value='';$('receivedDate').value='';$('deliveryDate').value='';$('discount').value=0;$('payment').value='Pending';$('billNo').textContent=billNumber();updateTable();showToast('New bill started');}
+  
   function toggleTheme(){document.body.classList.toggle('dark');localStorage.setItem('cnfTheme',document.body.classList.contains('dark')?'dark':'light');}
   function showToast(text){const t=$('toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
-  $('custName').addEventListener('input',updateTable); $('custPhone').addEventListener('input',updateTable); $('billNo').textContent=billNumber(); populateCustomers(); loadCustomItems(); renderSavedBills(); if(localStorage.getItem('cnfTheme')==='dark')document.body.classList.add('dark'); updateTable();
+  
+  $('custName').addEventListener('input',updateTable); 
+  $('custPhone').addEventListener('input',updateTable); 
+  $('billNo').textContent=billNumber(); 
+  populateCustomers(); 
+  loadCustomItems(); 
+  renderSavedBills(); 
+  if(localStorage.getItem('cnfTheme')==='dark')document.body.classList.add('dark'); 
+  updateTable();
 </script>
 </body>
 </html>
