@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean N Fresh Laundry Billing</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: #f1f5f9; margin: 0; padding: 12px; }
+    .card { background: #fff; padding: 18px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+    h2 { color: #1e3a8a; text-align: center; margin: 0 0 4px 0; }
+    .subtitle { text-align: center; color: #64748b; font-size: 12px; margin-bottom: 16px; }
+    label { font-weight: 600; font-size: 13px; color: #334155; display: block; margin-top: 10px; }
+    input, select { width: 100%; padding: 9px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .btn-add { background: #2563eb; color: white; border: none; padding: 10px; width: 100%; font-weight: bold; border-radius: 6px; margin-top: 12px; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
+    th, td { border: 1px solid #e2e8f0; padding: 8px; text-align: left; }
+    th { background: #f8fafc; color: #475569; }
+    .total-box { background: #eff6ff; border: 1px dashed #2563eb; padding: 12px; border-radius: 8px; margin-top: 15px; text-align: right; }
+    .total-amount { font-size: 22px; font-weight: bold; color: #1d4ed8; }
+    .btn-wa { background: #25d366; color: white; border: none; padding: 12px; width: 100%; font-size: 16px; font-weight: bold; border-radius: 8px; margin-top: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .del-btn { color: #ef4444; cursor: pointer; font-weight: bold; text-align: center; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>CLEAN N FRESH</h2>
+  <div class="subtitle">Laundry & Dry Cleaning Services</div>
+
+  <label>Customer Details</label>
+  <div class="grid-2">
+    <input type="text" id="custName" placeholder="Customer Name">
+    <input type="tel" id="custPhone" placeholder="Mobile No.">
+  </div>
+
+  <label>Select Service Mode</label>
+  <select id="serviceType" onchange="toggleMode()">
+    <option value="Per Pc">Per Piece Billing</option>
+    <option value="Per Kg">Per Kg (Laundry by Weight)</option>
+  </select>
+
+  <div id="kgSection" style="display:none;">
+    <div class="grid-2">
+      <div>
+        <label>Kg Service</label>
+        <select id="kgService">
+          <option value="Wash & Fold (₹70/kg)">Wash & Fold (₹70/kg)</option>
+          <option value="Wash & Iron (₹90/kg)">Wash & Iron (₹90/kg)</option>
+          <option value="Premium Wash (₹120/kg)">Premium Wash (₹120/kg)</option>
+        </select>
+      </div>
+      <div>
+        <label>Weight (Kg)</label>
+        <input type="number" id="weightQty" placeholder="Min 3 Kg" min="1" step="0.5">
+      </div>
+    </div>
+    <button class="btn-add" onclick="addKgItem()">+ Add Weight Order</button>
+  </div>
+
+  <div id="pcSection">
+    <label>Select Item Category</label>
+    <select id="itemSelect">
+      <optgroup label="Gents Wear">
+        <option value="Shirt / T-Shirt|20|30|60|10">Shirt / T-Shirt</option>
+        <option value="Pant / Trouser / Jeans|20|30|60|10">Pant / Trouser / Jeans</option>
+        <option value="Kurta Pyjama (Set)|50|70|100|20">Kurta Pyjama (Set)</option>
+        <option value="Blazer / Coat|0|50|150|50">Blazer / Coat</option>
+        <option value="Suit (2 Pc / 3 Pc)|0|70|220|70">Suit (2 Pc / 3 Pc)</option>
+        <option value="Jacket / Sweater|0|40|120|30">Jacket / Sweater</option>
+      </optgroup>
+      <optgroup label="Ladies Wear">
+        <option value="Top / Kurti|20|30|50|10">Top / Kurti</option>
+        <option value="Dress / Frock|50|70|100|20">Dress / Frock</option>
+        <option value="Saree (Cotton/Normal)|60|90|120|30">Saree (Cotton/Normal)</option>
+        <option value="Saree (Silk/Heavy/Zari)|0|100|250|100">Saree (Silk/Heavy/Zari)</option>
+        <option value="Lehenga (Heavy)|0|150|450|150">Lehenga (Heavy)</option>
+      </optgroup>
+      <optgroup label="Household & Bedding">
+        <option value="Bedsheet Single|100|120|100|40">Bedsheet Single</option>
+        <option value="Bedsheet Double|140|160|140|50">Bedsheet Double</option>
+        <option value="Blanket Single (1 Ply)|200|200|200|0">Blanket Single (1 Ply)</option>
+        <option value="Blanket Double (2 Ply)|400|400|400|0">Blanket Double (2 Ply)</option>
+        <option value="Curtain (Per Panel)|60|80|100|30">Curtain (Per Panel)</option>
+      </optgroup>
+    </select>
+
+    <div class="grid-2">
+      <div>
+        <label>Service Type</label>
+        <select id="pcService">
+          <option value="0">Wash & Fold</option>
+          <option value="1">Wash & Iron</option>
+          <option value="2">Dry Clean</option>
+          <option value="3">Steam Press Only</option>
+        </select>
+      </div>
+      <div>
+        <label>Quantity</label>
+        <input type="number" id="itemQty" value="1" min="1">
+      </div>
+    </div>
+    <button class="btn-add" onclick="addPcItem()">+ Add Item to Bill</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Service</th>
+        <th>Qty</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="cartTable"></tbody>
+  </table>
+
+  <div class="total-box">
+    <div style="font-size: 12px; color: #64748b;">Total Amount:</div>
+    <div class="total-amount" id="grandTotal">₹0</div>
+  </div>
+
+  <button class="btn-wa" onclick="sendWhatsApp()">
+    <span>📱 Send Bill on WhatsApp</span>
+  </button>
+</div>
+
+<script>
+let cart = [];
+
+function toggleMode() {
+  const mode = document.getElementById('serviceType').value;
+  document.getElementById('pcSection').style.display = mode === 'Per Pc' ? 'block' : 'none';
+  document.getElementById('kgSection').style.display = mode === 'Per Kg' ? 'block' : 'none';
+}
+
+function addPcItem() {
+  const itemData = document.getElementById('itemSelect').value.split('|');
+  const itemName = itemData[0];
+  const serviceIdx = parseInt(document.getElementById('pcService').value);
+  const qty = parseInt(document.getElementById('itemQty').value) || 1;
+  
+  const serviceNames = ["Wash & Fold", "Wash & Iron", "Dry Clean", "Steam Press"];
+  const rate = parseInt(itemData[serviceIdx + 1]);
+
+  if (rate === 0) {
+    alert(itemName + ' ke liye ' + serviceNames[serviceIdx] + ' available nahi hai!');
+    return;
+  }
+
+  const total = rate * qty;
+  cart.push({ name: itemName, service: serviceNames[serviceIdx], qty: qty, total: total });
+  updateTable();
+}
+
+function addKgItem() {
+  const kgService = document.getElementById('kgService').value;
+  const weight = parseFloat(document.getElementById('weightQty').value) || 0;
+  
+  if (weight <= 0) {
+    alert('Kripya vajan (Kg) bharein!');
+    return;
+  }
+
+  let rate = 70;
+  if (kgService.includes('90')) rate = 90;
+  if (kgService.includes('120')) rate = 120;
+
+  const finalWeight = weight < 3 ? 3 : weight;
+  const total = finalWeight * rate;
+
+  cart.push({ name: `Laundry (${weight} Kg)`, service: kgService.split(' ')[0], qty: finalWeight + ' Kg', total: Math.round(total) });
+  updateTable();
+}
+
+function removeItem(idx) {
+  cart.splice(idx, 1);
+  updateTable();
+}
+
+function updateTable() {
+  const tbody = document.getElementById('cartTable');
+  tbody.innerHTML = '';
+  let grandTotal = 0;
+
+  cart.forEach((item, index) => {
+    grandTotal += item.total;
+    tbody.innerHTML += `
+      <tr>
+        <td>${item.name}</td>
+        <td>${item.service}</td>
+        <td>${item.qty}</td>
+        <td>₹${item.total}</td>
+        <td class="del-btn" onclick="removeItem(${index})">✕</td>
+      </tr>
+    `;
+  });
+
+  document.getElementById('grandTotal').innerText = '₹' + grandTotal;
+}
+
+function sendWhatsApp() {
+  const name = document.getElementById('custName').value || 'Valued Customer';
+  const phone = document.getElementById('custPhone').value;
+  const grandTotal = document.getElementById('grandTotal').innerText;
+
+  if (!phone) {
+    alert('Kripya Customer ka Mobile Number bharein!');
+    return;
+  }
+
+  if (cart.length === 0) {
+    alert('Kripya pehle kam se kam 1 item bill me add karein!');
+    return;
+  }
+
+  let itemList = '';
+  cart.forEach((item, i) => {
+    itemList += `${i+1}. ${item.name} (${item.service}) x ${item.qty} = ₹${item.total}\n`;
+  });
+
+  const msg = `*CLEAN N FRESH LAUNDRY*\n----------------------------\n*Customer:* ${name}\n----------------------------\n*ITEMS ORDERED:*\n${itemList}----------------------------\n*TOTAL BILL:* ${grandTotal}\n----------------------------\n*Status:* Order Received\nThank you for choosing Clean N Fresh!`;
+
+  window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+</script>
+
+</body>
+</html>
