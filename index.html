@@ -392,8 +392,9 @@
           <label>Manage saved items</label>
           <select id="customItemManager"></select>
           <div class="grid-2" style="margin-top:10px;">
+            <button class="btn secondary" type="button" onclick="editCustomItem()">Edit Item</button>
             <button class="btn danger" type="button" onclick="removeCustomItem()">Delete Item</button>
-            <button class="btn dark" type="button" onclick="resetCustomItems()">Reset All Items</button>
+            <button class="btn dark" style="grid-column:1 / -1;" type="button" onclick="resetCustomItems()">Reset All Items</button>
           </div>
         </div>
       </div>
@@ -437,6 +438,7 @@
 
   <script>
     let cart = [], mode = 'Per Pc', billCounter = parseInt(localStorage.getItem('cnfBillCounter') || '100');
+    let editingCustomItem = null;
     const serviceNames = ['Wash & Fold','Wash & Iron','Dry Clean','Steam Press'];
     const pcCategories = ['Gents Items','Ladies Items','Winter Items','Bedding and Covers','Household'];
     const kgCategories = ['Wash & Fold','Wash & Iron','Bedsheets','Towels'];
@@ -497,6 +499,23 @@
       return null;
     }
 
+    function getSelectedCustomItemRef() {
+      const selected = $('customItemManager').value;
+      if (!selected) return null;
+
+      try {
+        const parsed = JSON.parse(selected);
+        if (parsed && parsed.category && parsed.name) return parsed;
+      } catch (error) {}
+
+      const legacy = String(selected).split('|');
+      if (legacy.length >= 2) {
+        return { category: legacy[0], name: legacy[1] };
+      }
+
+      return null;
+    }
+
     function populateDropdowns() {
       const items = getCustomItems();
 
@@ -526,7 +545,7 @@
     function refreshCustomManager() {
       const items = getCustomItems();
       const manager = $('customItemManager');
-      manager.innerHTML = '<option value="">Select an item to delete</option>';
+      manager.innerHTML = '<option value="">Select an item to edit or delete</option>';
 
       [...pcCategories, ...kgCategories].forEach(catName => {
         const catItems = items[catName] || [];
@@ -536,6 +555,11 @@
           manager.appendChild(option);
         });
       });
+
+      if (editingCustomItem) {
+        const matchingValue = encodeItemReference(editingCustomItem.category, editingCustomItem.name);
+        manager.value = matchingValue;
+      }
     }
 
     function getSavedBills() {
@@ -808,7 +832,88 @@
       updateTable();
     }
 
+    function clearCustomItemForm() {
+      $('customCategory').value = 'Gents Items';
+      $('customItemName').value = '';
+      ['0','1','2','3'].forEach(id => $('customPrice' + id).value = 0);
+      editingCustomItem = null;
+    }
+
+    function editCustomItem() {
+      const ref = getSelectedCustomItemRef();
+      if (!ref) {
+        alert('Please select an item to edit.');
+        return;
+      }
+
+      const items = getCustomItems();
+      const item = (items[ref.category] || []).find(entry => entry.name === ref.name);
+      if (!item) {
+        alert('Selected item not found.');
+        return;
+      }
+
+      $('customCategory').value = ref.category;
+      $('customItemName').value = item.name;
+      item.prices.forEach((price, index) => {
+        const field = $('customPrice' + index);
+        if (field) field.value = Number(price) || 0;
+      });
+      editingCustomItem = { category: ref.category, name: ref.name };
+      showToast('Editing ' + item.name);
+    }
+
+    function updateCustomItemOption() {
+      if (!editingCustomItem) {
+        alert('Please select an item to edit first.');
+        return;
+      }
+
+      const category = $('customCategory').value;
+      const finalName = $('customItemName').value.trim();
+      const prices = [0, 1, 2, 3].map(i => Number($('customPrice' + i).value) || 0);
+
+      if (!finalName) {
+        alert('Please enter an item name.');
+        return;
+      }
+
+      if (!prices.some(v => v > 0)) {
+        alert('Please set at least one service price.');
+        return;
+      }
+
+      const items = getCustomItems();
+      const catItems = items[category] || [];
+      const targetIndex = catItems.findIndex(item => item.name === editingCustomItem.name);
+
+      if (targetIndex === -1) {
+        alert('Selected item could not be found to update.');
+        return;
+      }
+
+      const duplicateName = catItems.some(item => item.name === finalName && item.name !== editingCustomItem.name);
+      if (duplicateName) {
+        alert('This item already exists in ' + category);
+        return;
+      }
+
+      catItems[targetIndex] = { name: finalName, prices };
+      items[category] = catItems;
+      saveCustomItems(items);
+
+      populateDropdowns();
+      refreshCustomManager();
+      showToast('Item "' + finalName + '" updated');
+      clearCustomItemForm();
+    }
+
     function addCustomItemOption() {
+      if (editingCustomItem) {
+        updateCustomItemOption();
+        return;
+      }
+
       const category = $('customCategory').value;
       const name = $('customItemName').value.trim();
       const prices = [0, 1, 2, 3].map(i => Number($('customPrice' + i).value) || 0);
@@ -836,45 +941,31 @@
       items[category] = catItems;
       saveCustomItems(items);
 
-      $('customItemName').value = '';
-      ['0','1','2','3'].forEach(id => $('customPrice' + id).value = 0);
+      const newRef = encodeItemReference(category, name);
+      $('customItemManager').value = newRef;
       populateDropdowns();
       refreshCustomManager();
       showToast('Item "' + name + '" added to ' + category);
+      clearCustomItemForm();
     }
 
     function removeCustomItem() {
-      const selected = $('customItemManager').value;
-      if (!selected) {
+      const ref = getSelectedCustomItemRef();
+      if (!ref) {
         alert('Please select an item to delete.');
         return;
       }
 
-      let category = '';
-      let name = '';
-
-      try {
-        const parsed = JSON.parse(selected);
-        category = parsed.category;
-        name = parsed.name;
-      } catch (error) {
-        const legacy = String(selected).split('|');
-        category = legacy[0] || '';
-        name = legacy[1] || '';
-      }
-
-      if (!category || !name) {
-        alert('Please select a valid item to delete.');
-        return;
-      }
-
       const items = getCustomItems();
-      items[category] = (items[category] || []).filter(item => item.name !== name);
+      items[ref.category] = (items[ref.category] || []).filter(item => item.name !== ref.name);
       saveCustomItems(items);
 
       populateDropdowns();
       refreshCustomManager();
-      showToast('Item deleted from ' + category);
+      showToast('Item deleted from ' + ref.category);
+      if (editingCustomItem && editingCustomItem.category === ref.category && editingCustomItem.name === ref.name) {
+        clearCustomItemForm();
+      }
     }
 
     function resetCustomItems() {
@@ -882,6 +973,7 @@
       initializeCategories();
       populateDropdowns();
       refreshCustomManager();
+      clearCustomItemForm();
       showToast('All custom items reset');
     }
 
