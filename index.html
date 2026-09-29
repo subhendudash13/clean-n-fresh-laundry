@@ -27,7 +27,7 @@
       background:linear-gradient(135deg,var(--bg),#e0f2fe); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; transition:.25s;
     }
     body.dark { background:linear-gradient(135deg,#0b1516,#102a2b); }
-    .app { max-width:980px; margin:auto; }
+    .app { max-width:1080px; margin:auto; }
     .topbar { display:flex; justify-content:space-between; align-items:center; gap:14px; margin-bottom:18px; }
     .brand { display:flex; align-items:center; gap:14px; }
     .brand-copy { display:flex; flex-direction:column; }
@@ -52,40 +52,75 @@
     .icon-btn,.btn { border:0; border-radius:10px; cursor:pointer; font-weight:700; transition:.2s; }
     .icon-btn { width:42px; height:42px; background:var(--card); color:var(--text); box-shadow:var(--shadow); font-size:18px; }
     .icon-btn:hover,.btn:hover { transform:translateY(-1px); }
-    .layout { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr); gap:18px; }
+    .layout { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr); gap:18px; }
     .card { background:var(--card); border:1px solid rgba(148,163,184,.2); border-radius:20px; padding:22px; box-shadow:var(--shadow); }
-    .card h2 { margin:0 0 4px; font-size:18px; } .section-note { color:var(--muted); font-size:12px; margin-bottom:15px; }
+    .card h2 { margin:0 0 4px; font-size:18px; }
+    .section-note { color:var(--muted); font-size:12px; margin-bottom:15px; }
     label { display:block; margin:14px 0 6px; color:var(--muted); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; }
     input,select { width:100%; padding:12px 13px; border:1px solid var(--line); border-radius:10px; background:var(--card); color:var(--text); font:inherit; outline:none; }
     input:focus,select:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(20,184,166,.15); }
-    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; } .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
-    .customer-row { display:grid; grid-template-columns:1fr 150px; gap:10px; }
-    .btn { padding:12px 15px; color:#fff; background:var(--primary); } .btn:hover { background:var(--primary-dark); } .btn.full { width:100%; margin-top:14px; } .btn.secondary { color:var(--primary); background:#ccfbf1; } .btn.warning { background:var(--accent); } .btn.dark { background:#334155; } .btn.danger { background:#ef4444; } .btn.small { padding:8px 12px; font-size:12px; }
-    .service-tabs { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:5px; background:var(--bg); border-radius:12px; margin:16px 0; } .service-tabs button { padding:10px; border:0; border-radius:8px; background:transparent; color:var(--muted); font-weight:800; cursor:pointer; } .service-tabs button.active { color:var(--primary); background:var(--card); box-shadow:0 2px 8px rgba(0,0,0,.08); }
-    .dropdown-section { background:linear-gradient(135deg, rgba(12,93,156,.04), rgba(11,184,166,.04)); border:1px solid var(--line); border-radius:16px; padding:16px; margin:16px 0; }
-    .dropdown-header { display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:700; }
-    .dropdown-header:hover { color:var(--primary); }
-    .dropdown-content { display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
-    .dropdown-content.open { display:block; }
-    .table-wrap { overflow-x:auto; } table { width:100%; border-collapse:collapse; margin-top:18px; font-size:13px; } th,td { padding:11px 8px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap; } th { color:var(--muted); font-size:11px; text-transform:uppercase; } .del-btn { color:var(--danger); cursor:pointer; font-weight:900; text-align:center; }
-    .empty { color:var(--muted); text-align:center; padding:22px 8px; }
-    .summary { position:sticky; top:18px; } .summary-head { display:flex; justify-content:space-between; align-items:start; } .bill-no { color:var(--muted); font-size:12px; } .summary-total { display:flex; justify-content:space-between; align-items:end; padding:18px 0; margin-top:15px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); } .summary-total strong { color:var(--primary); font-size:32px; } .summary-line { display:flex; justify-content:space-between; padding:6px 0; color:var(--muted); font-size:14px; } .summary-line.discount { color:#16a34a; }
-    .actions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px; margin-top:15px; } .actions .btn { font-size:12px; }
-    .saved { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); } .saved select { margin-top:7px; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+    .customer-row { display:grid; grid-template-columns:1fr 170px; gap:10px; }
+    .btn { padding:12px 15px; color:#fff; background:var(--primary); }
+    .btn:hover { background:var(--primary-dark); }
+    .btn.full { width:100%; margin-top:14px; }
+    .btn.secondary { background:#e2e8f0; color:#0f172a; }
+    .btn.secondary:hover { background:#cbd5e1; }
+    .btn.danger { background:var(--danger); }
+    .btn.dark { background:#0f172a; }
+    .btn.warning { background:var(--accent); color:#1f2937; }
+    .service-tabs { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:5px; background:var(--bg); border-radius:12px; margin:16px 0; }
+    .service-tabs button { padding:10px; border:0; border-radius:10px; background:transparent; color:var(--muted); font-weight:800; cursor:pointer; }
+    .service-tabs button.active { background:#fff; color:var(--primary); box-shadow:0 4px 10px rgba(15,118,110,.08); }
+    .summary { position:sticky; top:18px; }
+    .summary-head { display:flex; justify-content:space-between; align-items:start; }
+    .bill-no { color:var(--muted); font-size:12px; }
+    .summary-line { display:flex; justify-content:space-between; margin:12px 0; color:var(--muted); font-weight:600; }
+    .summary-total { display:flex; justify-content:space-between; align-items:center; padding-top:14px; margin-top:14px; border-top:1px solid var(--line); font-size:20px; font-weight:900; }
+    .actions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px; margin-top:15px; }
+    .saved { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); }
+    .saved select { margin-top:7px; }
     .saved-bills-list { margin-top:10px; max-height:180px; overflow:auto; display:grid; gap:8px; }
     .bill-item { display:flex; justify-content:space-between; gap:8px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:rgba(15,118,110,.02); cursor:pointer; transition:.2s; }
     .bill-item:hover { background:rgba(15,118,110,.08); }
     .bill-item .meta { font-size:12px; color:var(--muted); }
-    .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; pointer-events:none; background:#16302b; color:#fff; padding:11px 16px; border-radius:10px; font-size:13px; transition:.25s; z-index:5; } .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; margin-top:18px; font-size:13px; }
+    th,td { padding:11px 8px; border-bottom:1px solid var(--line); text-align:left; }
+    .empty { color:var(--muted); text-align:center; padding:22px 8px; }
+    .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; pointer-events:none; background:#16302b; color:#fff; padding:11px 16px; border-radius:10px; box-shadow:var(--shadow); transition:.25s; }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
     .sales-table { margin-top:18px; }
-    .sales-table table { font-size:12px; }
     .sales-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px; }
     .stat-card { background:linear-gradient(135deg, rgba(12,93,156,.06), rgba(11,184,166,.06)); border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center; }
     .stat-card .label { color:var(--muted); font-size:11px; font-weight:800; }
     .stat-card .value { font-size:24px; font-weight:900; color:var(--primary); margin-top:4px; }
-    @media(max-width:760px) { body { padding:10px; } .layout { grid-template-columns:1fr; } .summary { position:static; } .customer-row { grid-template-columns:1fr; } .card { padding:16px; border-radius:16px; } .actions { grid-template-columns:1fr 1fr; } .grid-3 { grid-template-columns:1fr 1fr; } }
-    @media(max-width:420px) { .grid-2,.grid-3 { grid-template-columns:1fr; } .actions { grid-template-columns:1fr; } .brand { gap:10px; } .brand-copy h1 { font-size:22px; padding:4px 8px; } }
-    @media print { body { padding:0; background:#fff; } .topbar,.entry-card,.actions,.saved,.no-print,.nav-tabs { display:none!important; } .layout { display:block; } .card { box-shadow:none; border:0; padding:0; } .summary { display:block; } .summary-total strong { color:#000; } table { font-size:11px; } }
+    .modal-backdrop { position:fixed; inset:0; background:rgba(15,23,42,.5); display:none; align-items:center; justify-content:center; padding:20px; z-index:50; }
+    .modal-backdrop.show { display:flex; }
+    .modal { width:min(640px,100%); background:var(--card); border:1px solid rgba(148,163,184,.2); border-radius:18px; box-shadow:var(--shadow); padding:22px; }
+    .modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+    .close-btn { border:0; background:transparent; font-size:26px; cursor:pointer; color:var(--muted); }
+    .detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .detail-box { border:1px solid var(--line); border-radius:12px; padding:12px; background:rgba(15,118,110,.02); }
+    .detail-box strong { display:block; margin-bottom:6px; color:var(--text); }
+    .items-list { margin-top:10px; display:grid; gap:8px; }
+    .items-list div { border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:rgba(15,118,110,.02); }
+    .item-meta { font-size:12px; color:var(--muted); }
+    @media(max-width:760px) {
+      body { padding:10px; }
+      .layout { grid-template-columns:1fr; }
+      .summary { position:static; }
+      .customer-row { grid-template-columns:1fr; }
+      .card { padding:16px; }
+    }
+    @media(max-width:420px) {
+      .grid-2,.grid-3 { grid-template-columns:1fr; }
+      .actions { grid-template-columns:1fr; }
+      .brand { gap:10px; }
+      .brand-copy h1 { font-size:22px; padding:4px 8px; }
+    }
+    @media print { body { padding:0; background:#fff; } .topbar,.entry-card,.actions,.saved,.no-print,.nav-tabs,.modal-backdrop { display:none!important; } .layout { display:block; } .card { box-shadow:none; border:none; } }
   </style>
 </head>
 <body>
@@ -135,104 +170,179 @@
 
     <div class="nav-tabs no-print">
       <button class="nav-btn active" onclick="showTab('bill')">📝 New Bill</button>
+      <button class="nav-btn" onclick="showTab('items')">🧺 Items</button>
       <button class="nav-btn" onclick="showTab('sales')">📊 Sales</button>
     </div>
 
     <div id="billTab" class="tab-content">
       <div class="layout">
         <section class="card entry-card">
-          <h2>Create New Bill</h2><div class="section-note">Add services and share a professional bill with your customer.</div>
-          <label>Customer details</label>
-          <div class="customer-row"><input id="custName" placeholder="Customer name"><input id="custPhone" type="tel" inputmode="numeric" placeholder="Mobile number"></div>
-          <button class="btn secondary full" onclick="saveCustomer()">＋ Save customer</button>
+          <h2>Create New Bill</h2>
+          <div class="section-note">Add services and share a professional bill with your customer.</div>
+
+          <div class="customer-row">
+            <div>
+              <label>Customer Name</label>
+              <input id="custName" placeholder="Customer name">
+            </div>
+            <div>
+              <label>Mob Number</label>
+              <input id="custPhone" type="tel" inputmode="numeric" placeholder="Mobile number">
+            </div>
+          </div>
 
           <div class="grid-2">
             <div>
-              <label>Item Received Date</label>
-              <input id="receivedDate" type="date">
+              <label>Service Type</label>
+              <select id="serviceModeSelect" onchange="setMode(this.value)">
+                <option value="Per Pc">Per Piece</option>
+                <option value="Per Kg">By Weight</option>
+              </select>
             </div>
+            <div>
+              <label>Item Category</label>
+              <select id="itemSelect">
+                <optgroup label="Gents Wear">
+                  <option value="Shirt / T-Shirt|20|30|60|10">Shirt / T-Shirt</option>
+                  <option value="Pant / Trouser / Jeans|20|30|60|10">Pant / Trouser / Jeans</option>
+                  <option value="Suit / Blazer|180|220|260|60">Suit / Blazer</option>
+                </optgroup>
+                <optgroup label="Ladies Wear">
+                  <option value="Top / Kurti|20|30|50|10">Top / Kurti</option>
+                  <option value="Dress / Frock|50|70|100|20">Dress / Frock</option>
+                  <option value="Saree (Cotton)|80|110|150|30">Saree (Cotton)</option>
+                </optgroup>
+                <optgroup label="Household & Bedding">
+                  <option value="Bedsheet Single|100|120|100|40">Bedsheet Single</option>
+                  <option value="Bedsheet Double|140|160|140|50">Bedsheet Double</option>
+                  <option value="Pillow Cover|30|40|50|15">Pillow Cover</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-2">
             <div>
               <label>Delivery Date</label>
               <input id="deliveryDate" type="date">
             </div>
+            <div>
+              <label>Received Date</label>
+              <input id="receivedDate" type="date" readonly>
+            </div>
           </div>
 
-          <div class="service-tabs"><button id="pcTab" class="active" onclick="setMode('Per Pc')">Per Piece</button><button id="kgTab" onclick="setMode('Per Kg')">By Weight</button></div>
-
-          <div class="dropdown-section">
-            <div class="dropdown-header" onclick="toggleDropdown('itemDropdown')">
-              <span>⚙️ Add Item to Category</span>
-              <span id="dropdownArrow">▼</span>
-            </div>
-            <div id="itemDropdown" class="dropdown-content">
-              <div class="grid-2">
-                <div>
-                  <label>Category</label>
-                  <select id="customCategory">
-                    <option value="Gents Wear">Gents Wear</option>
-                    <option value="Ladies Wear">Ladies Wear</option>
-                    <option value="Household & Bedding">Household & Bedding</option>
-                  </select>
-                </div>
-                <div>
-                  <label>Item name</label>
-                  <input id="customItemName" placeholder="e.g. Jacket / Hoodie">
-                </div>
-              </div>
-              <div class="grid-2">
-                <div>
-                  <label>Wash & Fold</label>
-                  <input id="customPrice0" type="number" min="0" value="0">
-                </div>
-                <div>
-                  <label>Wash & Iron</label>
-                  <input id="customPrice1" type="number" min="0" value="0">
-                </div>
-                <div>
-                  <label>Dry Clean</label>
-                  <input id="customPrice2" type="number" min="0" value="0">
-                </div>
-                <div>
-                  <label>Steam Press</label>
-                  <input id="customPrice3" type="number" min="0" value="0">
-                </div>
-              </div>
-              <button class="btn full" onclick="addCustomItemOption()">＋ Add item to list</button>
-              <div style="margin-top:14px;">
-                <label>Manage custom items</label>
-                <select id="customItemManager"></select>
-                <div class="grid-2" style="margin-top:10px;">
-                  <button class="btn danger small full" onclick="removeCustomItem()">Delete</button>
-                  <button class="btn dark small full" onclick="resetCustomItems()">Reset all</button>
-                </div>
-              </div>
-            </div>
+          <div class="service-tabs">
+            <button id="pcTab" class="active" type="button" onclick="setMode('Per Pc')">Per Piece</button>
+            <button id="kgTab" type="button" onclick="setMode('Per Kg')">By Weight</button>
           </div>
 
           <div id="pcSection">
-            <label>Item category</label><select id="itemSelect">
-              <optgroup label="Gents Wear"><option value="Shirt / T-Shirt|20|30|60|10">Shirt / T-Shirt</option><option value="Pant / Trouser / Jeans|20|30|60|10">Pant / Trouser / Jeans</option><option value="Kurta Pyjama (Set)|50|70|100|20">Kurta Pyjama (Set)</option><option value="Blazer / Coat|0|50|150|50">Blazer / Coat</option><option value="Suit (2 Pc / 3 Pc)|0|70|220|70">Suit (2 Pc / 3 Pc)</option><option value="Jacket / Sweater|0|40|120|30">Jacket / Sweater</option></optgroup>
-              <optgroup label="Ladies Wear"><option value="Top / Kurti|20|30|50|10">Top / Kurti</option><option value="Dress / Frock|50|70|100|20">Dress / Frock</option><option value="Saree (Cotton/Normal)|60|90|120|30">Saree (Cotton/Normal)</option><option value="Saree (Silk/Heavy/Zari)|0|100|250|100">Saree (Silk/Heavy/Zari)</option><option value="Lehenga (Heavy)|0|150|450|150">Lehenga (Heavy)</option></optgroup>
-              <optgroup label="Household & Bedding"><option value="Bedsheet Single|100|120|100|40">Bedsheet Single</option><option value="Bedsheet Double|140|160|140|50">Bedsheet Double</option><option value="Blanket Single (1 Ply)|200|200|200|0">Blanket Single (1 Ply)</option><option value="Blanket Double (2 Ply)|400|400|400|0">Blanket Double (2 Ply)</option><option value="Curtain (Per Panel)|60|80|100|30">Curtain (Per Panel)</option></optgroup>
-            </select>
-            <div class="grid-2"><div><label>Service type</label><select id="pcService"><option value="0">Wash & Fold</option><option value="1">Wash & Iron</option><option value="2">Dry Clean</option><option value="3">Steam Press Only</option></select></div><div><label>Quantity</label><input id="itemQty" type="number" min="1" value="1"></div></div>
-            <button class="btn full" onclick="addPcItem()">＋ Add item to bill</button>
+            <div class="grid-2">
+              <div>
+                <label>Service type</label>
+                <select id="pcService">
+                  <option value="0">Wash &amp; Fold</option>
+                  <option value="1">Wash &amp; Iron</option>
+                  <option value="2">Dry Clean</option>
+                  <option value="3">Steam Press</option>
+                </select>
+              </div>
+              <div>
+                <label>Quantity</label>
+                <input id="itemQty" type="number" min="1" value="1">
+              </div>
+            </div>
+            <button class="btn full" type="button" onclick="addPcItem()">＋ Add item to bill</button>
           </div>
-          <div id="kgSection" hidden><div class="grid-2"><div><label>Kg service</label><select id="kgService"><option value="Wash & Fold|70">Wash & Fold (₹70/kg)</option><option value="Wash & Iron|90">Wash & Iron (₹90/kg)</option><option value="Premium Wash|120">Premium Wash (₹120/kg)</option></select></div><div><label>Weight (minimum 3 kg)</label><input id="weightQty" type="number" min="0.5" step="0.5" placeholder="e.g. 4.5"></div></div><button class="btn full" onclick="addKgItem()">＋ Add weight order</button></div>
 
-          <div class="table-wrap"><table><thead><tr><th>Item</th><th>Service</th><th>Qty</th><th>Total</th><th></th></tr></thead><tbody id="cartTable"><tr><td colspan="5" class="empty">No items added yet</td></tr></tbody></table></div>
+          <div id="kgSection" hidden>
+            <div class="grid-2">
+              <div>
+                <label>Kg service</label>
+                <select id="kgService">
+                  <option value="Wash & Fold|70">Wash &amp; Fold (₹70/kg)</option>
+                  <option value="Wash & Iron|90">Wash &amp; Iron (₹90/kg)</option>
+                  <option value="Dry Clean|140">Dry Clean (₹140/kg)</option>
+                </select>
+              </div>
+              <div>
+                <label>Weight (Kg)</label>
+                <input id="weightQty" type="number" min="0.5" step="0.5" value="1">
+              </div>
+            </div>
+            <button class="btn full" type="button" onclick="addKgItem()">＋ Add item to bill</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Service</th>
+                  <th>Qty</th>
+                  <th>Total</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="cartTable">
+                <tr><td colspan="5" class="empty">No items added yet</td></tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <aside class="card summary" id="invoice">
-          <div class="summary-head"><div><h2>Bill Summary</h2><div class="bill-no" id="billNo"></div></div><span>🧺</span></div>
+          <div class="summary-head">
+            <div>
+              <h2>Bill Summary</h2>
+              <div class="bill-no" id="billNo"></div>
+            </div>
+            <span>🧺</span>
+          </div>
+
           <div id="customerPreview" class="section-note" style="margin-top:18px">Valued Customer</div>
           <div class="summary-line"><span>Subtotal</span><b id="subtotal">₹0</b></div>
-          <div class="grid-2 no-print"><div><label>Discount (%)</label><input id="discount" type="number" min="0" max="100" value="0" oninput="updateTable()"></div><div><label>Payment</label><select id="payment"><option>Pending</option><option>Paid</option><option>Cash</option><option>UPI</option></select></div></div>
+
+          <div class="grid-2 no-print">
+            <div>
+              <label>Discount (%)</label>
+              <input id="discount" type="number" min="0" max="100" value="0" oninput="updateTable()">
+            </div>
+            <div>
+              <label>Payment</label>
+              <select id="paymentMode">
+                <option value="Cash">Cash</option>
+                <option value="UPI">UPI</option>
+                <option value="Card">Card</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="summary-line"><span>Extra Charge</span><b id="extraChargeDisplay">₹0</b></div>
+          <div class="grid-2 no-print" style="margin-top:8px;">
+            <div style="grid-column:1 / -1;">
+              <label>Extra Charges</label>
+              <input id="extraCharge" type="number" min="0" value="0" oninput="updateTable()">
+            </div>
+          </div>
           <div class="summary-line discount"><span>Discount</span><b id="discountAmount">− ₹0</b></div>
           <div class="summary-total"><span>Total payable</span><strong id="grandTotal">₹0</strong></div>
-          <div class="actions no-print"><button class="btn warning" onclick="printInvoice()">🖨 Print</button><button class="btn" onclick="saveBillManual()">💾 Save Bill</button><button class="btn" onclick="sendWhatsApp()">📱 WhatsApp</button></div>
-          <button class="btn dark full no-print" onclick="newBill()">＋ New bill</button>
-          <div class="saved no-print"><label>Saved customers</label><select id="savedCustomers" onchange="loadCustomer()"><option value="">Choose a saved customer</option></select></div>
+
+          <div class="actions no-print">
+            <button class="btn warning" type="button" onclick="printInvoice()">🖨 Print</button>
+            <button class="btn" type="button" onclick="saveBillManual()">💾 Save Bill</button>
+            <button class="btn dark" type="button" onclick="sendWhatsApp()">💬 WhatsApp</button>
+          </div>
+
+          <button class="btn dark full no-print" type="button" onclick="newBill()">＋ New bill</button>
+
+          <div class="saved no-print">
+            <label>Saved customers</label>
+            <select id="savedCustomers" onchange="loadCustomer()">
+              <option value="">Choose a saved customer</option>
+            </select>
+          </div>
 
           <div class="saved no-print">
             <label>Saved bills</label>
@@ -242,11 +352,63 @@
       </div>
     </div>
 
+    <div id="itemsTab" class="tab-content" style="display:none;">
+      <div class="card">
+        <h2>Manage Items</h2>
+        <div class="section-note">Add and remove item prices. These items will appear in the bill dropdown under their category.</div>
+
+        <div class="grid-2">
+          <div>
+            <label>Category</label>
+            <select id="customCategory">
+              <option value="Gents Wear">Gents Wear</option>
+              <option value="Ladies Wear">Ladies Wear</option>
+              <option value="Household & Bedding">Household & Bedding</option>
+            </select>
+          </div>
+          <div>
+            <label>Item name</label>
+            <input id="customItemName" placeholder="e.g. Jacket / Hoodie">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label>Wash &amp; Fold</label>
+            <input id="customPrice0" type="number" min="0" value="0">
+          </div>
+          <div>
+            <label>Wash &amp; Iron</label>
+            <input id="customPrice1" type="number" min="0" value="0">
+          </div>
+          <div>
+            <label>Dry Clean</label>
+            <input id="customPrice2" type="number" min="0" value="0">
+          </div>
+          <div>
+            <label>Steam Press</label>
+            <input id="customPrice3" type="number" min="0" value="0">
+          </div>
+        </div>
+
+        <button class="btn full" type="button" onclick="addCustomItemOption()">＋ Add item to category</button>
+
+        <div style="margin-top:18px;">
+          <label>Manage saved items</label>
+          <select id="customItemManager"></select>
+          <div class="grid-2" style="margin-top:10px;">
+            <button class="btn danger" type="button" onclick="removeCustomItem()">Delete Item</button>
+            <button class="btn dark" type="button" onclick="resetCustomItems()">Reset All</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="salesTab" class="tab-content" style="display:none;">
       <div class="card">
         <h2>Sales Report</h2>
-        <div class="section-note">View all saved bills and sales history</div>
-        
+        <div class="section-note">View all saved bills and sales history.</div>
+
         <div class="sales-stats">
           <div class="stat-card">
             <div class="label">Total Bills</div>
@@ -283,300 +445,533 @@
       </div>
     </div>
   </main>
+
   <div id="toast" class="toast"></div>
 
-<script>
-  let cart = [], mode = 'Per Pc', billCounter = parseInt(localStorage.getItem('cnfBillCounter') || '100');
-  const serviceNames = ['Wash & Fold','Wash & Iron','Dry Clean','Steam Press'];
-  const money = value => '₹' + Math.round(value).toLocaleString('en-IN');
-  const $ = id => document.getElementById(id);
+  <div id="billDetailModal" class="modal-backdrop" onclick="if(event.target.id === 'billDetailModal') closeBillDetail();">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 style="margin:0;">Bill Details</h3>
+        <button class="close-btn" type="button" onclick="closeBillDetail()">×</button>
+      </div>
+      <div id="billDetailContent"></div>
+    </div>
+  </div>
 
-  function getCustomItems() {
-    try { return JSON.parse(localStorage.getItem('cnfCustomItems') || '[]'); }
-    catch { return []; }
-  }
+  <script>
+    let cart = [], mode = 'Per Pc', billCounter = parseInt(localStorage.getItem('cnfBillCounter') || '100');
+    const serviceNames = ['Wash & Fold','Wash & Iron','Dry Clean','Steam Press'];
+    const money = value => '₹' + Math.round(Number(value) || 0).toLocaleString('en-IN');
+    const $ = id => document.getElementById(id);
 
-  function saveCustomItems(items) {
-    localStorage.setItem('cnfCustomItems', JSON.stringify(items));
-  }
-
-  function refreshCustomManager() {
-    const saved = getCustomItems();
-    const manager = $('customItemManager');
-    manager.innerHTML = '<option value="">Select a custom item</option>';
-    saved.forEach(item => {
-      const value = `${item.category}|${item.name}`;
-      const option = new Option(`${item.category} - ${item.name}`, value);
-      manager.appendChild(option);
-    });
-  }
-
-  function getSavedBills() {
-    try { return JSON.parse(localStorage.getItem('cnfSavedBills') || '[]'); }
-    catch { return []; }
-  }
-
-  function saveBillRecord() {
-    const billNo = $('billNo').textContent;
-    const customerName = $('custName').value.trim() || 'Valued Customer';
-    const customerPhone = $('custPhone').value.trim();
-    const total = $('grandTotal').textContent;
-    const receivedDate = $('receivedDate').value;
-    const deliveryDate = $('deliveryDate').value;
-    
-    const saved = getSavedBills();
-    const entry = { 
-      billNo, 
-      customerName, 
-      customerPhone, 
-      total, 
-      receivedDate,
-      deliveryDate,
-      timestamp: new Date().toISOString(), 
-      items: cart.map(item => ({ ...item })) 
-    };
-    saved.unshift(entry);
-    localStorage.setItem('cnfSavedBills', JSON.stringify(saved.slice(0, 100)));
-    renderSavedBills();
-    renderSalesTable();
-  }
-
-  function saveBillManual() {
-    if (cart.length === 0) {
-      alert('Pehle kam se kam 1 item add karein!');
-      return;
-    }
-    saveBillRecord();
-    showToast('Bill saved successfully');
-  }
-
-  function renderSavedBills() {
-    const saved = getSavedBills();
-    const list = $('savedBillsList');
-    list.innerHTML = '';
-    if (!saved.length) {
-      list.innerHTML = '<div class="empty">No saved bills yet</div>';
-      return;
+    function getCurrentDate() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
 
-    saved.slice(0, 5).forEach((bill) => {
-      const div = document.createElement('div');
-      div.className = 'bill-item';
-      div.innerHTML = `
-        <div>
-          <div><strong>${bill.billNo}</strong></div>
-          <div class="meta">${bill.customerName}</div>
-        </div>
-        <div style="text-align:right;">
-          <div><strong>${bill.total}</strong></div>
-          <div class="meta">${bill.customerPhone || 'No phone'}</div>
-        </div>
-      `;
-      div.title = `Saved on ${new Date(bill.timestamp).toLocaleString()}`;
-      div.onclick = () => loadSavedBill(bill);
-      list.appendChild(div);
-    });
-  }
-
-  function renderSalesTable() {
-    const saved = getSavedBills();
-    const tbody = $('salesTableBody');
-    tbody.innerHTML = '';
-    
-    if (!saved.length) {
-      tbody.innerHTML = '<tr><td colspan="8" class="empty">No bills saved</td></tr>';
-      return;
+    function getCustomItems() {
+      try { return JSON.parse(localStorage.getItem('cnfCustomItems') || '[]'); }
+      catch { return []; }
     }
 
-    let totalRevenue = 0;
-    saved.forEach(bill => {
-      const tr = document.createElement('tr');
-      const amount = bill.total.replace('₹', '').replace(/,/g, '');
-      totalRevenue += parseInt(amount);
-      tr.innerHTML = `
-        <td>${bill.billNo}</td>
-        <td>${bill.customerName}</td>
-        <td>${bill.customerPhone || '-'}</td>
-        <td>${bill.items ? bill.items.length : 0}</td>
-        <td>${bill.total}</td>
-        <td>${bill.receivedDate || '-'}</td>
-        <td>${bill.deliveryDate || '-'}</td>
-        <td>${new Date(bill.timestamp).toLocaleDateString('en-IN')}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    $('totalBillsCount').textContent = saved.length;
-    $('totalRevenueAmount').textContent = money(totalRevenue);
-  }
-
-  function loadSavedBill(bill) {
-    $('custName').value = bill.customerName;
-    $('custPhone').value = bill.customerPhone || '';
-    $('receivedDate').value = bill.receivedDate || '';
-    $('deliveryDate').value = bill.deliveryDate || '';
-    $('billNo').textContent = bill.billNo;
-    cart = JSON.parse(JSON.stringify(bill.items || []));
-    updateTable();
-    showTab('bill');
-    showToast('Saved bill loaded');
-  }
-
-  function toggleDropdown(id) {
-    const elem = $(id);
-    elem.classList.toggle('open');
-    const arrow = $('dropdownArrow');
-    if (elem.classList.contains('open')) {
-      arrow.textContent = '▲';
-    } else {
-      arrow.textContent = '▼';
+    function saveCustomItems(items) {
+      localStorage.setItem('cnfCustomItems', JSON.stringify(items));
     }
-  }
 
-  function showTab(tabName) {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
-    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-    if (tabName === 'bill') {
-      $('billTab').style.display = 'block';
-      document.querySelector('.nav-btn:nth-child(1)').classList.add('active');
-    } else if (tabName === 'sales') {
-      $('salesTab').style.display = 'block';
-      document.querySelector('.nav-btn:nth-child(2)').classList.add('active');
+    function refreshCustomManager() {
+      const saved = getCustomItems();
+      const manager = $('customItemManager');
+      manager.innerHTML = '<option value="">Select a custom item</option>';
+      saved.forEach(item => {
+        const value = `${item.category}|${item.name}`;
+        const option = new Option(`${item.category} - ${item.name}`, value);
+        manager.appendChild(option);
+      });
+    }
+
+    function getSavedBills() {
+      try { return JSON.parse(localStorage.getItem('cnfSavedBills') || '[]'); }
+      catch { return []; }
+    }
+
+    function saveBillRecord() {
+      const billNo = $('billNo').textContent;
+      const customerName = $('custName').value.trim() || 'Valued Customer';
+      const customerPhone = $('custPhone').value.trim();
+      const total = $('grandTotal').textContent;
+      const receivedDate = $('receivedDate').value || getCurrentDate();
+      const deliveryDate = $('deliveryDate').value;
+      const extraCharge = Number($('extraCharge').value || 0);
+      const discount = Number($('discount').value || 0);
+
+      const saved = getSavedBills();
+      const entry = {
+        billNo,
+        customerName,
+        customerPhone,
+        total,
+        receivedDate,
+        deliveryDate,
+        extraCharge,
+        discount,
+        timestamp: new Date().toISOString(),
+        items: cart.map(item => ({ ...item }))
+      };
+      saved.unshift(entry);
+      localStorage.setItem('cnfSavedBills', JSON.stringify(saved.slice(0, 100)));
+      renderSavedBills();
       renderSalesTable();
     }
-  }
 
-  function setMode(next) { mode = next; $('pcSection').hidden = next !== 'Per Pc'; $('kgSection').hidden = next !== 'Per Kg'; $('pcTab').classList.toggle('active', next === 'Per Pc'); $('kgTab').classList.toggle('active', next === 'Per Kg'); }
-  function addPcItem() { const data=$('itemSelect').value.split('|'), idx=Number($('pcService').value), qty=Math.max(1,parseInt($('itemQty').value)||1), rate=Number(data[idx+1]); if(!rate){ alert(data[0]+' ke liye '+serviceNames[idx]+' available nahi hai!'); return; } cart.push({name:data[0],service:serviceNames[idx],qty,total:rate*qty}); updateTable(); }
-  function addKgItem() { const data=$('kgService').value.split('|'), weight=parseFloat($('weightQty').value)||0; if(weight<=0){alert('Kripya vajan (Kg) bharein!');return;} const finalWeight=Math.max(3,weight); cart.push({name:'Laundry ('+weight+' Kg)',service:data[0],qty:finalWeight+' Kg',total:Math.round(finalWeight*Number(data[1]))}); updateTable(); }
-  function removeItem(index) { cart.splice(index,1); updateTable(); }
-
-  function addCustomItemOption() {
-    const category = $('customCategory').value;
-    const name = $('customItemName').value.trim();
-    const prices = [0,1,2,3].map(i => Number($('customPrice'+i).value) || 0);
-
-    if (!name) {
-      alert('Item name enter karein!');
-      return;
-    }
-
-    const hasPrice = prices.some(v => v > 0);
-    if (!hasPrice) {
-      alert('Kam se kam ek service ka rate daalen!');
-      return;
-    }
-
-    const select = $('itemSelect');
-    let group = Array.from(select.querySelectorAll('optgroup')).find(g => g.label === category);
-    if (!group) {
-      group = document.createElement('optgroup');
-      group.label = category;
-      group.dataset.custom = 'true';
-      select.appendChild(group);
-    }
-
-    const optionValue = `${name}|${prices.join('|')}`;
-    const option = new Option(name, optionValue);
-    group.appendChild(option);
-    select.value = optionValue;
-
-    const saved = getCustomItems();
-    const item = { category, name, prices };
-    const exists = saved.some(x => x.category === category && x.name === name);
-    if (!exists) {
-      saved.push(item);
-      saveCustomItems(saved);
-    }
-
-    $('customItemName').value='';
-    ['0','1','2','3'].forEach(id => $('customPrice'+id).value = 0);
-    refreshCustomManager();
-    showToast('Custom item added');
-  }
-
-  function removeCustomItem() {
-    const selected = $('customItemManager').value;
-    if (!selected) {
-      alert('Delete karne ke liye item select karein!');
-      return;
-    }
-
-    const [category, name] = selected.split('|');
-    const items = getCustomItems().filter(item => !(item.category === category && item.name === name));
-    saveCustomItems(items);
-
-    const select = $('itemSelect');
-    Array.from(select.querySelectorAll('optgroup')).forEach(group => {
-      if (group.label === category && group.dataset.custom === 'true') {
-        Array.from(group.options).forEach(option => {
-          if (option.text === name) option.remove();
-        });
-        if (group.options.length === 0) group.remove();
+    function saveBillManual() {
+      if (cart.length === 0) {
+        alert('Please add at least one item first!');
+        return;
       }
-    });
+      saveBillRecord();
+      showToast('Bill saved successfully');
+    }
 
-    refreshCustomManager();
-    showToast('Custom item removed');
-  }
+    function renderSavedBills() {
+      const saved = getSavedBills();
+      const list = $('savedBillsList');
+      list.innerHTML = '';
+      if (!saved.length) {
+        list.innerHTML = '<div class="empty">No saved bills yet</div>';
+        return;
+      }
 
-  function resetCustomItems() {
-    if (!confirm('Sab custom items delete karne hain?')) return;
-    saveCustomItems([]);
-    Array.from($('itemSelect').querySelectorAll('optgroup[data-custom="true"]')).forEach(group => group.remove());
-    refreshCustomManager();
-    showToast('Custom items reset');
-  }
+      saved.slice(0, 5).forEach((bill) => {
+        const div = document.createElement('div');
+        div.className = 'bill-item';
+        div.innerHTML = `
+          <div>
+            <div><strong>${bill.billNo}</strong></div>
+            <div class="meta">${bill.customerName}</div>
+          </div>
+          <div style="text-align:right;">
+            <div><strong>${bill.total}</strong></div>
+            <div class="meta">${bill.customerPhone || 'No phone'}</div>
+          </div>
+        `;
+        div.title = `Saved on ${new Date(bill.timestamp).toLocaleString()}`;
+        div.onclick = () => loadSavedBill(bill);
+        list.appendChild(div);
+      });
+    }
 
-  function loadCustomItems() {
-    const saved = getCustomItems();
-    const select = $('itemSelect');
-    saved.forEach(item => {
-      let group = Array.from(select.querySelectorAll('optgroup')).find(g => g.label === item.category && g.dataset.custom === 'true');
+    function renderSalesTable() {
+      const saved = getSavedBills();
+      const tbody = $('salesTableBody');
+      tbody.innerHTML = '';
+
+      if (!saved.length) {
+        tbody.innerHTML = '<tr><td colspan="8" class="empty">No bills saved</td></tr>';
+        $('totalBillsCount').textContent = '0';
+        $('totalRevenueAmount').textContent = '₹0';
+        return;
+      }
+
+      let totalRevenue = 0;
+      saved.forEach(bill => {
+        const tr = document.createElement('tr');
+        tr.style.cursor = 'pointer';
+        const amount = Number(String(bill.total).replace(/[₹,]/g, '')) || 0;
+        totalRevenue += amount;
+        tr.innerHTML = `
+          <td>${bill.billNo}</td>
+          <td>${bill.customerName}</td>
+          <td>${bill.customerPhone || '-'}</td>
+          <td>${bill.items ? bill.items.length : 0}</td>
+          <td>${bill.total}</td>
+          <td>${bill.receivedDate || '-'}</td>
+          <td>${bill.deliveryDate || '-'}</td>
+          <td>${new Date(bill.timestamp).toLocaleDateString('en-IN')}</td>
+        `;
+        tr.onclick = () => openBillDetail(bill);
+        tbody.appendChild(tr);
+      });
+
+      $('totalBillsCount').textContent = String(saved.length);
+      $('totalRevenueAmount').textContent = money(totalRevenue);
+    }
+
+    function openBillDetail(bill) {
+      const itemDetails = (bill.items || []).map(item => `
+        <div>
+          <strong>${item.name}</strong>
+          <div class="item-meta">${item.serviceName} • Qty: ${item.qty || item.weight || 1} • Price: ${money(item.price || item.total)}</div>
+          <div class="item-meta">Total: ${money(item.total)}</div>
+        </div>
+      `).join('');
+
+      $('billDetailContent').innerHTML = `
+        <div class="detail-grid">
+          <div class="detail-box">
+            <strong>Customer</strong>
+            ${bill.customerName || 'Valued Customer'}
+          </div>
+          <div class="detail-box">
+            <strong>Bill No</strong>
+            ${bill.billNo}
+          </div>
+          <div class="detail-box">
+            <strong>Phone</strong>
+            ${bill.customerPhone || 'N/A'}
+          </div>
+          <div class="detail-box">
+            <strong>Total</strong>
+            ${bill.total}
+          </div>
+          <div class="detail-box">
+            <strong>Received Date</strong>
+            ${bill.receivedDate || getCurrentDate()}
+          </div>
+          <div class="detail-box">
+            <strong>Delivery Date</strong>
+            ${bill.deliveryDate || 'N/A'}
+          </div>
+        </div>
+        <div class="items-list">${itemDetails || '<div>No items found</div>'}</div>
+      `;
+      $('billDetailModal').classList.add('show');
+    }
+
+    function closeBillDetail() {
+      $('billDetailModal').classList.remove('show');
+    }
+
+    function loadSavedBill(bill) {
+      $('custName').value = bill.customerName || '';
+      $('custPhone').value = bill.customerPhone || '';
+      $('receivedDate').value = bill.receivedDate || getCurrentDate();
+      $('deliveryDate').value = bill.deliveryDate || '';
+      $('billNo').textContent = bill.billNo;
+      $('extraCharge').value = bill.extraCharge || 0;
+      $('discount').value = bill.discount || 0;
+      cart = JSON.parse(JSON.stringify(bill.items || []));
+      updateTable();
+      showTab('bill');
+      showToast('Saved bill loaded');
+    }
+
+    function showTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      if (tabName === 'bill') {
+        $('billTab').style.display = 'block';
+        document.querySelector('.nav-btn:nth-child(1)').classList.add('active');
+      } else if (tabName === 'items') {
+        $('itemsTab').style.display = 'block';
+        document.querySelector('.nav-btn:nth-child(2)').classList.add('active');
+      } else if (tabName === 'sales') {
+        $('salesTab').style.display = 'block';
+        document.querySelector('.nav-btn:nth-child(3)').classList.add('active');
+        renderSalesTable();
+      }
+    }
+
+    function setMode(next) {
+      mode = next;
+      $('pcSection').hidden = next !== 'Per Pc';
+      $('kgSection').hidden = next !== 'Per Kg';
+      $('pcTab').classList.toggle('active', next === 'Per Pc');
+      $('kgTab').classList.toggle('active', next === 'Per Kg');
+      $('serviceModeSelect').value = next;
+    }
+
+    function addPcItem() {
+      const data = $('itemSelect').value.split('|');
+      const itemName = data[0];
+      const idx = Number($('pcService').value);
+      const qty = Math.max(1, parseInt($('itemQty').value) || 1);
+      const rate = Number(data[idx + 1]) || 0;
+
+      if (!itemName || !rate) {
+        alert('Please select a valid item and service.');
+        return;
+      }
+
+      const total = rate * qty;
+      cart.push({
+        name: itemName,
+        serviceName: serviceNames[idx],
+        serviceIndex: idx,
+        qty,
+        rate,
+        total,
+        price: total,
+        type: 'Per Pc'
+      });
+      updateTable();
+      showToast('Item added to bill');
+    }
+
+    function addKgItem() {
+      const data = $('kgService').value.split('|');
+      const serviceName = data[0];
+      const rate = Number(data[1]) || 0;
+      const weight = Math.max(0.5, parseFloat($('weightQty').value) || 0);
+
+      if (!serviceName || !rate || weight <= 0) {
+        alert('Please enter a valid weight.');
+        return;
+      }
+
+      const total = rate * weight;
+      cart.push({
+        name: 'By Weight',
+        serviceName,
+        qty: weight,
+        rate,
+        total,
+        price: total,
+        type: 'Per Kg',
+        weight
+      });
+      updateTable();
+      showToast('Weight item added');
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      updateTable();
+    }
+
+    function addCustomItemOption() {
+      const category = $('customCategory').value;
+      const name = $('customItemName').value.trim();
+      const prices = [0, 1, 2, 3].map(i => Number($('customPrice' + i).value) || 0);
+
+      if (!name) {
+        alert('Please enter an item name.');
+        return;
+      }
+
+      if (!prices.some(v => v > 0)) {
+        alert('Please set at least one service price.');
+        return;
+      }
+
+      const select = $('itemSelect');
+      let group = Array.from(select.querySelectorAll('optgroup')).find(g => g.label === category && g.dataset.custom === 'true');
       if (!group) {
         group = document.createElement('optgroup');
-        group.label = item.category;
+        group.label = category;
         group.dataset.custom = 'true';
         select.appendChild(group);
       }
-      const optionValue = `${item.name}|${item.prices.join('|')}`;
-      const exists = Array.from(group.options).some(opt => opt.value === optionValue);
+
+      const optionValue = `${name}|${prices.join('|')}`;
+      const option = new Option(name, optionValue);
+      group.appendChild(option);
+      select.value = optionValue;
+
+      const saved = getCustomItems();
+      const item = { category, name, prices };
+      const exists = saved.some(x => x.category === category && x.name === name);
       if (!exists) {
-        group.appendChild(new Option(item.name, optionValue));
+        saved.push(item);
+        saveCustomItems(saved);
       }
-    });
-    refreshCustomManager();
-  }
 
-  function updateTable() { let subtotal=cart.reduce((sum,item)=>sum+item.total,0), discount=Math.min(100,Math.max(0,Number($('discount').value)||0)), discountAmount=subtotal*discount/100; $('subtotal').textContent=money(subtotal); $('discountAmount').textContent='− '+money(discountAmount); $('grandTotal').textContent=money(subtotal-discountAmount); $('customerPreview').textContent=$('custName').value.trim()||'Valued Customer'; const tbody=$('cartTable'); tbody.innerHTML=''; if(!cart.length){tbody.innerHTML='<tr><td colspan="5" class="empty">No items added yet</td></tr>';return;} cart.forEach((item,i)=>{const tr=document.createElement('tr'); [item.name,item.service,item.qty,money(item.total)].forEach(text=>{const td=document.createElement('td');td.textContent=text;tr.appendChild(td);}); const del=document.createElement('td');del.textContent='✕';del.className='del-btn';del.onclick=()=>removeItem(i);tr.appendChild(del);tbody.appendChild(tr);}); }
-  
-  function billNumber(){ 
-    billCounter++;
-    localStorage.setItem('cnfBillCounter', billCounter);
-    return 'CnF-' + billCounter;
-  }
+      $('customItemName').value = '';
+      ['0','1','2','3'].forEach(id => $('customPrice' + id).value = 0);
+      refreshCustomManager();
+      showToast('Custom item added');
+    }
 
-  function saveCustomer(){const name=$('custName').value.trim(),phone=$('custPhone').value.trim();if(!name||!phone){alert('Customer name aur mobile number bharein!');return;}let customers=JSON.parse(localStorage.getItem('cnfCustomers')||'[]');if(!customers.some(c=>c.phone===phone))customers.push({name,phone});localStorage.setItem('cnfCustomers',JSON.stringify(customers));populateCustomers();showToast('Customer saved');}
-  function populateCustomers(){const select=$('savedCustomers'),customers=JSON.parse(localStorage.getItem('cnfCustomers')||'[]');select.innerHTML='<option value="">Choose a saved customer</option>';customers.forEach(c=>{const o=document.createElement('option');o.value=c.phone;o.textContent=c.name+' • '+c.phone;select.appendChild(o);});}
-  function loadCustomer(){const phone=$('savedCustomers').value,customers=JSON.parse(localStorage.getItem('cnfCustomers')||'[]'),c=customers.find(x=>x.phone===phone);if(c){$('custName').value=c.name;$('custPhone').value=c.phone;updateTable();}}
-  
-  function sendWhatsApp(){const phone=$('custPhone').value.replace(/\D/g,''),name=$('custName').value.trim()||'Valued Customer';if(!phone||cart.length===0){alert(!phone?'Customer ka mobile number bharein!':'Pehle kam se kam 1 item add karein!');return;}const discount=Number($('discount').value)||0;let list=cart.map((x,i)=>`${i+1}. ${x.name} (${x.service}) x ${x.qty} = ${money(x.total)}`).join('\n');const msg=`*CLEAN N FRESH LAUNDRY*\n${$('billNo').textContent}\n----------------------------\n*Customer:* ${name}\n*Received:* ${$('receivedDate').value || '-'}\n*Delivery:* ${$('deliveryDate').value || '-'}\n*ITEMS:*\n${list}\n----------------------------\nSubtotal: ${$('subtotal').textContent}\nDiscount: ${discount}%\n*TOTAL BILL:* ${$('grandTotal').textContent}\n*Payment:* ${$('payment').value}\n----------------------------\nThank you for choosing Clean N Fresh!`;window.open('https://wa.me/91'+phone+'?text='+encodeURIComponent(msg),'_blank');saveBillRecord();}
-  
-  function printInvoice(){if(!cart.length){alert('Pehle kam se kam 1 item add karein!');return;}saveBillRecord();window.print();}
-  
-  function newBill(){if(cart.length&&!confirm('Start a new bill?'))return;cart=[];$('custName').value='';$('custPhone').value='';$('receivedDate').value='';$('deliveryDate').value='';$('discount').value=0;$('payment').value='Pending';$('billNo').textContent=billNumber();updateTable();showToast('New bill started');}
-  
-  function toggleTheme(){document.body.classList.toggle('dark');localStorage.setItem('cnfTheme',document.body.classList.contains('dark')?'dark':'light');}
-  function showToast(text){const t=$('toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
-  
-  $('custName').addEventListener('input',updateTable); 
-  $('custPhone').addEventListener('input',updateTable); 
-  $('billNo').textContent=billNumber(); 
-  populateCustomers(); 
-  loadCustomItems(); 
-  renderSavedBills(); 
-  if(localStorage.getItem('cnfTheme')==='dark')document.body.classList.add('dark'); 
-  updateTable();
-</script>
+    function removeCustomItem() {
+      const selected = $('customItemManager').value;
+      if (!selected) {
+        alert('Please select an item to delete.');
+        return;
+      }
+
+      const [category, name] = selected.split('|');
+      const items = getCustomItems().filter(item => !(item.category === category && item.name === name));
+      saveCustomItems(items);
+
+      const select = $('itemSelect');
+      Array.from(select.querySelectorAll('optgroup')).forEach(group => {
+        if (group.label === category && group.dataset.custom === 'true') {
+          Array.from(group.options).forEach(option => {
+            if (option.text === name) option.remove();
+          });
+          if (group.options.length === 0) group.remove();
+        }
+      });
+
+      refreshCustomManager();
+      showToast('Custom item removed');
+    }
+
+    function resetCustomItems() {
+      if (!confirm('Delete all custom items?')) return;
+      saveCustomItems([]);
+      Array.from($('itemSelect').querySelectorAll('optgroup[data-custom="true"]')).forEach(group => group.remove());
+      refreshCustomManager();
+      showToast('Custom items reset');
+    }
+
+    function loadCustomItems() {
+      const saved = getCustomItems();
+      const select = $('itemSelect');
+      saved.forEach(item => {
+        let group = Array.from(select.querySelectorAll('optgroup')).find(g => g.label === item.category && g.dataset.custom === 'true');
+        if (!group) {
+          group = document.createElement('optgroup');
+          group.label = item.category;
+          group.dataset.custom = 'true';
+          select.appendChild(group);
+        }
+        const optionValue = `${item.name}|${item.prices.join('|')}`;
+        const exists = Array.from(group.options).some(opt => opt.value === optionValue);
+        if (!exists) {
+          group.appendChild(new Option(item.name, optionValue));
+        }
+      });
+      refreshCustomManager();
+    }
+
+    function updateTable() {
+      let subtotal = cart.reduce((sum, item) => sum + Number(item.total || 0), 0);
+      const discount = Math.min(100, Math.max(0, Number($('discount').value) || 0));
+      const extraCharge = Math.max(0, Number($('extraCharge').value) || 0);
+      const discountAmount = subtotal * discount / 100;
+      const total = subtotal + extraCharge - discountAmount;
+
+      $('subtotal').textContent = money(subtotal);
+      $('extraChargeDisplay').textContent = money(extraCharge);
+      $('discountAmount').textContent = '- ' + money(discountAmount);
+      $('grandTotal').textContent = money(total);
+
+      const customerName = $('custName').value.trim() || 'Valued Customer';
+      $('customerPreview').textContent = customerName;
+
+      if (cart.length === 0) {
+        $('cartTable').innerHTML = '<tr><td colspan="5" class="empty">No items added yet</td></tr>';
+        return;
+      }
+
+      $('cartTable').innerHTML = cart.map((item, index) => `
+        <tr>
+          <td>${item.name}</td>
+          <td>${item.serviceName}</td>
+          <td>${item.qty || item.weight || 1}</td>
+          <td>${money(item.total)}</td>
+          <td><button type="button" class="btn danger" style="padding:8px 10px; font-size:12px;" onclick="removeItem(${index})">Delete</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function billNumber() {
+      billCounter++;
+      localStorage.setItem('cnfBillCounter', String(billCounter));
+      return 'CnF-' + billCounter;
+    }
+
+    function saveCustomer() {
+      const name = $('custName').value.trim();
+      const phone = $('custPhone').value.trim();
+      if (!name || !phone) {
+        alert('Please enter customer name and mobile number.');
+        return;
+      }
+      const customers = JSON.parse(localStorage.getItem('cnfCustomers') || '[]');
+      const existing = customers.find(item => item.phone === phone);
+      if (!existing) {
+        customers.push({ name, phone });
+        localStorage.setItem('cnfCustomers', JSON.stringify(customers));
+      }
+      populateCustomers();
+      showToast('Customer saved');
+    }
+
+    function populateCustomers() {
+      const select = $('savedCustomers');
+      const customers = JSON.parse(localStorage.getItem('cnfCustomers') || '[]');
+      select.innerHTML = '<option value="">Choose a saved customer</option>';
+      customers.forEach(customer => {
+        const option = new Option(`${customer.name} (${customer.phone})`, customer.phone);
+        select.appendChild(option);
+      });
+    }
+
+    function loadCustomer() {
+      const phone = $('savedCustomers').value;
+      const customers = JSON.parse(localStorage.getItem('cnfCustomers') || '[]');
+      const c = customers.find(x => x.phone === phone);
+      if (c) {
+        $('custName').value = c.name;
+        $('custPhone').value = c.phone;
+        updateTable();
+      }
+    }
+
+    function sendWhatsApp() {
+      const phone = $('custPhone').value.replace(/\D/g, '');
+      const name = $('custName').value.trim() || 'Valued Customer';
+      if (!phone || cart.length === 0) {
+        alert('Please enter customer mobile number and add items to the bill.');
+        return;
+      }
+      const message = encodeURIComponent(`Hello ${name}, your laundry bill total is ${$('grandTotal').textContent}. Thank you.`);
+      window.open(`https://wa.me/91${phone}?text=${message}`, '_blank');
+    }
+
+    function printInvoice() {
+      if (!cart.length) {
+        alert('Please add at least one item before printing.');
+        return;
+      }
+      saveBillRecord();
+      window.print();
+    }
+
+    function newBill() {
+      if (cart.length && !confirm('Start a new bill?')) return;
+      cart = [];
+      $('custName').value = '';
+      $('custPhone').value = '';
+      $('receivedDate').value = getCurrentDate();
+      $('deliveryDate').value = '';
+      $('discount').value = 0;
+      $('extraCharge').value = 0;
+      $('billNo').textContent = billNumber();
+      $('paymentMode').value = 'Cash';
+      updateTable();
+      renderSavedBills();
+      showToast('New bill started');
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('cnfTheme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    function showToast(text) {
+      const t = $('toast');
+      t.textContent = text;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    $('custName').addEventListener('input', updateTable);
+    $('custPhone').addEventListener('input', updateTable);
+    $('receivedDate').value = getCurrentDate();
+    $('billNo').textContent = billNumber();
+    populateCustomers();
+    loadCustomItems();
+    renderSavedBills();
+    renderSalesTable();
+    if (localStorage.getItem('cnfTheme') === 'dark') document.body.classList.add('dark');
+    setMode('Per Pc');
+    updateTable();
+  </script>
 </body>
 </html>
