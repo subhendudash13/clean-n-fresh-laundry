@@ -46,7 +46,7 @@
       display:inline-block; padding:4px 12px; border-radius:12px; background:linear-gradient(135deg,#0d5cba,#0a89d7 52%, #0a9bb8); color:#fff; box-shadow:0 12px 20px rgba(12,92,156,.22);
     }
     .tagline { color:var(--muted); font-size:13px; margin-top:5px; }
-    .nav-tabs { display:flex; gap:8px; margin-top:12px; }
+    .nav-tabs { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
     .nav-btn { padding:8px 14px; border:0; border-radius:10px; background:var(--bg); color:var(--muted); cursor:pointer; font-weight:700; transition:.2s; }
     .nav-btn.active { background:var(--primary); color:#fff; }
     .icon-btn,.btn { border:0; border-radius:10px; cursor:pointer; font-weight:700; transition:.2s; }
@@ -81,10 +81,12 @@
     .actions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px; margin-top:15px; }
     .saved { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); }
     .saved select { margin-top:7px; }
-    .saved-bills-list { margin-top:10px; max-height:180px; overflow:auto; display:grid; gap:8px; }
-    .bill-item { display:flex; justify-content:space-between; gap:8px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:rgba(15,118,110,.02); cursor:pointer; transition:.2s; }
+    .saved-bills-list { margin-top:10px; max-height:220px; overflow:auto; display:grid; gap:8px; }
+    .bill-item { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:rgba(15,118,110,.02); cursor:pointer; transition:.2s; }
     .bill-item:hover { background:rgba(15,118,110,.08); }
     .bill-item .meta { font-size:12px; color:var(--muted); }
+    .bill-item-content { flex:1; cursor:pointer; }
+    .bill-item-delete { padding:6px 10px; font-size:11px; }
     .table-wrap { overflow-x:auto; }
     table { width:100%; border-collapse:collapse; margin-top:18px; font-size:13px; }
     th,td { padding:11px 8px; border-bottom:1px solid var(--line); text-align:left; }
@@ -119,6 +121,8 @@
       .actions { grid-template-columns:1fr; }
       .brand { gap:10px; }
       .brand-copy h1 { font-size:22px; padding:4px 8px; }
+      .nav-tabs { gap:4px; }
+      .nav-btn { padding:6px 10px; font-size:12px; }
     }
     @media print { body { padding:0; background:#fff; } .topbar,.entry-card,.actions,.saved,.no-print,.nav-tabs,.modal-backdrop { display:none!important; } .layout { display:block; } .card { box-shadow:none; border:none; } }
   </style>
@@ -193,45 +197,34 @@
 
           <div class="grid-2">
             <div>
-              <label>Service Type</label>
-              <select id="serviceModeSelect" onchange="setMode(this.value)">
-                <option value="Per Pc">Per Piece</option>
-                <option value="Per Kg">By Weight</option>
-              </select>
-            </div>
-            <div>
               <label>Item Category</label>
               <select id="itemSelect">
-                <optgroup label="Gents Wear">
-                  <option value="Shirt / T-Shirt|20|30|60|10">Shirt / T-Shirt</option>
-                  <option value="Pant / Trouser / Jeans|20|30|60|10">Pant / Trouser / Jeans</option>
-                  <option value="Suit / Blazer|180|220|260|60">Suit / Blazer</option>
+                <optgroup label="Gents Items">
                 </optgroup>
-                <optgroup label="Ladies Wear">
-                  <option value="Top / Kurti|20|30|50|10">Top / Kurti</option>
-                  <option value="Dress / Frock|50|70|100|20">Dress / Frock</option>
-                  <option value="Saree (Cotton)|80|110|150|30">Saree (Cotton)</option>
+                <optgroup label="Ladies Items">
                 </optgroup>
-                <optgroup label="Household & Bedding">
-                  <option value="Bedsheet Single|100|120|100|40">Bedsheet Single</option>
-                  <option value="Bedsheet Double|140|160|140|50">Bedsheet Double</option>
-                  <option value="Pillow Cover|30|40|50|15">Pillow Cover</option>
+                <optgroup label="Winter Items">
+                </optgroup>
+                <optgroup label="Bedding and Covers">
+                </optgroup>
+                <optgroup label="Household">
                 </optgroup>
               </select>
             </div>
-          </div>
-
-          <div class="grid-2">
             <div>
               <label>Delivery Date</label>
               <input id="deliveryDate" type="date">
             </div>
+          </div>
+
+          <div class="grid-2">
             <div>
               <label>Received Date</label>
               <input id="receivedDate" type="date" readonly>
             </div>
           </div>
 
+          <label style="margin-top:16px;">Service Type</label>
           <div class="service-tabs">
             <button id="pcTab" class="active" type="button" onclick="setMode('Per Pc')">Per Piece</button>
             <button id="kgTab" type="button" onclick="setMode('Per Kg')">By Weight</button>
@@ -240,7 +233,7 @@
           <div id="pcSection">
             <div class="grid-2">
               <div>
-                <label>Service type</label>
+                <label>Service</label>
                 <select id="pcService">
                   <option value="0">Wash &amp; Fold</option>
                   <option value="1">Wash &amp; Iron</option>
@@ -259,7 +252,7 @@
           <div id="kgSection" hidden>
             <div class="grid-2">
               <div>
-                <label>Kg service</label>
+                <label>Service</label>
                 <select id="kgService">
                   <option value="Wash & Fold|70">Wash &amp; Fold (₹70/kg)</option>
                   <option value="Wash & Iron|90">Wash &amp; Iron (₹90/kg)</option>
@@ -355,20 +348,22 @@
     <div id="itemsTab" class="tab-content" style="display:none;">
       <div class="card">
         <h2>Manage Items</h2>
-        <div class="section-note">Add and remove item prices. These items will appear in the bill dropdown under their category.</div>
+        <div class="section-note">Add items to 5 categories: Gents Items, Ladies Items, Winter Items, Bedding and Covers, Household.</div>
 
         <div class="grid-2">
           <div>
             <label>Category</label>
             <select id="customCategory">
-              <option value="Gents Wear">Gents Wear</option>
-              <option value="Ladies Wear">Ladies Wear</option>
-              <option value="Household & Bedding">Household & Bedding</option>
+              <option value="Gents Items">Gents Items</option>
+              <option value="Ladies Items">Ladies Items</option>
+              <option value="Winter Items">Winter Items</option>
+              <option value="Bedding and Covers">Bedding and Covers</option>
+              <option value="Household">Household</option>
             </select>
           </div>
           <div>
             <label>Item name</label>
-            <input id="customItemName" placeholder="e.g. Jacket / Hoodie">
+            <input id="customItemName" placeholder="e.g. Jacket, Hoodie, Shirt">
           </div>
         </div>
 
@@ -398,7 +393,7 @@
           <select id="customItemManager"></select>
           <div class="grid-2" style="margin-top:10px;">
             <button class="btn danger" type="button" onclick="removeCustomItem()">Delete Item</button>
-            <button class="btn dark" type="button" onclick="resetCustomItems()">Reset All</button>
+            <button class="btn dark" type="button" onclick="resetCustomItems()">Reset All Items</button>
           </div>
         </div>
       </div>
@@ -461,6 +456,7 @@
   <script>
     let cart = [], mode = 'Per Pc', billCounter = parseInt(localStorage.getItem('cnfBillCounter') || '100');
     const serviceNames = ['Wash & Fold','Wash & Iron','Dry Clean','Steam Press'];
+    const categories = ['Gents Items','Ladies Items','Winter Items','Bedding and Covers','Household'];
     const money = value => '₹' + Math.round(Number(value) || 0).toLocaleString('en-IN');
     const $ = id => document.getElementById(id);
 
@@ -473,22 +469,51 @@
     }
 
     function getCustomItems() {
-      try { return JSON.parse(localStorage.getItem('cnfCustomItems') || '[]'); }
-      catch { return []; }
+      try { return JSON.parse(localStorage.getItem('cnfCustomItems') || '{}'); }
+      catch { return {}; }
     }
 
     function saveCustomItems(items) {
       localStorage.setItem('cnfCustomItems', JSON.stringify(items));
     }
 
+    function initializeCategories() {
+      const items = getCustomItems();
+      categories.forEach(cat => {
+        if (!items[cat]) items[cat] = [];
+      });
+      saveCustomItems(items);
+    }
+
+    function refreshItemDropdown() {
+      const items = getCustomItems();
+      const select = $('itemSelect');
+      
+      categories.forEach(catName => {
+        const optgroup = Array.from(select.querySelectorAll('optgroup')).find(g => g.label === catName);
+        if (optgroup) {
+          optgroup.innerHTML = '';
+          const catItems = items[catName] || [];
+          catItems.forEach(item => {
+            const optionValue = `${item.name}|${item.prices.join('|')}`;
+            optgroup.appendChild(new Option(item.name, optionValue));
+          });
+        }
+      });
+    }
+
     function refreshCustomManager() {
-      const saved = getCustomItems();
+      const items = getCustomItems();
       const manager = $('customItemManager');
-      manager.innerHTML = '<option value="">Select a custom item</option>';
-      saved.forEach(item => {
-        const value = `${item.category}|${item.name}`;
-        const option = new Option(`${item.category} - ${item.name}`, value);
-        manager.appendChild(option);
+      manager.innerHTML = '<option value="">Select an item to delete</option>';
+      
+      categories.forEach(catName => {
+        const catItems = items[catName] || [];
+        catItems.forEach(item => {
+          const value = `${catName}|${item.name}`;
+          const option = new Option(`${catName} → ${item.name}`, value);
+          manager.appendChild(option);
+        });
       });
     }
 
@@ -544,23 +569,34 @@
         return;
       }
 
-      saved.slice(0, 5).forEach((bill) => {
+      saved.slice(0, 5).forEach((bill, index) => {
         const div = document.createElement('div');
         div.className = 'bill-item';
         div.innerHTML = `
-          <div>
+          <div class="bill-item-content">
             <div><strong>${bill.billNo}</strong></div>
             <div class="meta">${bill.customerName}</div>
           </div>
-          <div style="text-align:right;">
+          <div style="text-align:right; flex:0;">
             <div><strong>${bill.total}</strong></div>
             <div class="meta">${bill.customerPhone || 'No phone'}</div>
           </div>
+          <button type="button" class="btn danger bill-item-delete" onclick="deleteSavedBill(${index}); event.stopPropagation();">Delete</button>
         `;
         div.title = `Saved on ${new Date(bill.timestamp).toLocaleString()}`;
-        div.onclick = () => loadSavedBill(bill);
+        div.addEventListener('click', () => loadSavedBill(bill));
         list.appendChild(div);
       });
+    }
+
+    function deleteSavedBill(index) {
+      if (!confirm('Delete this bill?')) return;
+      const saved = getSavedBills();
+      saved.splice(index, 1);
+      localStorage.setItem('cnfSavedBills', JSON.stringify(saved));
+      renderSavedBills();
+      renderSalesTable();
+      showToast('Bill deleted');
     }
 
     function renderSalesTable() {
@@ -603,7 +639,7 @@
       const itemDetails = (bill.items || []).map(item => `
         <div>
           <strong>${item.name}</strong>
-          <div class="item-meta">${item.serviceName} • Qty: ${item.qty || item.weight || 1} • Price: ${money(item.price || item.total)}</div>
+          <div class="item-meta">${item.serviceName} • Qty: ${item.qty || item.weight || 1} • Rate: ${money(item.rate)}</div>
           <div class="item-meta">Total: ${money(item.total)}</div>
         </div>
       `).join('');
@@ -681,7 +717,6 @@
       $('kgSection').hidden = next !== 'Per Kg';
       $('pcTab').classList.toggle('active', next === 'Per Pc');
       $('kgTab').classList.toggle('active', next === 'Per Kg');
-      $('serviceModeSelect').value = next;
     }
 
     function addPcItem() {
@@ -757,32 +792,24 @@
         return;
       }
 
-      const select = $('itemSelect');
-      let group = Array.from(select.querySelectorAll('optgroup')).find(g => g.label === category && g.dataset.custom === 'true');
-      if (!group) {
-        group = document.createElement('optgroup');
-        group.label = category;
-        group.dataset.custom = 'true';
-        select.appendChild(group);
+      const items = getCustomItems();
+      const catItems = items[category] || [];
+      
+      const exists = catItems.some(item => item.name === name);
+      if (exists) {
+        alert('This item already exists in ' + category);
+        return;
       }
 
-      const optionValue = `${name}|${prices.join('|')}`;
-      const option = new Option(name, optionValue);
-      group.appendChild(option);
-      select.value = optionValue;
-
-      const saved = getCustomItems();
-      const item = { category, name, prices };
-      const exists = saved.some(x => x.category === category && x.name === name);
-      if (!exists) {
-        saved.push(item);
-        saveCustomItems(saved);
-      }
+      catItems.push({ name, prices });
+      items[category] = catItems;
+      saveCustomItems(items);
 
       $('customItemName').value = '';
       ['0','1','2','3'].forEach(id => $('customPrice' + id).value = 0);
+      refreshItemDropdown();
       refreshCustomManager();
-      showToast('Custom item added');
+      showToast('Item added to ' + category);
     }
 
     function removeCustomItem() {
@@ -793,49 +820,21 @@
       }
 
       const [category, name] = selected.split('|');
-      const items = getCustomItems().filter(item => !(item.category === category && item.name === name));
+      const items = getCustomItems();
+      items[category] = (items[category] || []).filter(item => item.name !== name);
       saveCustomItems(items);
 
-      const select = $('itemSelect');
-      Array.from(select.querySelectorAll('optgroup')).forEach(group => {
-        if (group.label === category && group.dataset.custom === 'true') {
-          Array.from(group.options).forEach(option => {
-            if (option.text === name) option.remove();
-          });
-          if (group.options.length === 0) group.remove();
-        }
-      });
-
+      refreshItemDropdown();
       refreshCustomManager();
-      showToast('Custom item removed');
+      showToast('Item deleted from ' + category);
     }
 
     function resetCustomItems() {
       if (!confirm('Delete all custom items?')) return;
-      saveCustomItems([]);
-      Array.from($('itemSelect').querySelectorAll('optgroup[data-custom="true"]')).forEach(group => group.remove());
+      initializeCategories();
+      refreshItemDropdown();
       refreshCustomManager();
-      showToast('Custom items reset');
-    }
-
-    function loadCustomItems() {
-      const saved = getCustomItems();
-      const select = $('itemSelect');
-      saved.forEach(item => {
-        let group = Array.from(select.querySelectorAll('optgroup')).find(g => g.label === item.category && g.dataset.custom === 'true');
-        if (!group) {
-          group = document.createElement('optgroup');
-          group.label = item.category;
-          group.dataset.custom = 'true';
-          select.appendChild(group);
-        }
-        const optionValue = `${item.name}|${item.prices.join('|')}`;
-        const exists = Array.from(group.options).some(opt => opt.value === optionValue);
-        if (!exists) {
-          group.appendChild(new Option(item.name, optionValue));
-        }
-      });
-      refreshCustomManager();
+      showToast('All custom items reset');
     }
 
     function updateTable() {
@@ -961,12 +960,15 @@
       setTimeout(() => t.classList.remove('show'), 2200);
     }
 
+    // Initialize
     $('custName').addEventListener('input', updateTable);
     $('custPhone').addEventListener('input', updateTable);
     $('receivedDate').value = getCurrentDate();
+    initializeCategories();
+    refreshItemDropdown();
+    refreshCustomManager();
     $('billNo').textContent = billNumber();
     populateCustomers();
-    loadCustomItems();
     renderSavedBills();
     renderSalesTable();
     if (localStorage.getItem('cnfTheme') === 'dark') document.body.classList.add('dark');
