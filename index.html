@@ -109,6 +109,10 @@
     .items-list { margin-top:10px; display:grid; gap:8px; }
     .items-list div { border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:rgba(15,118,110,.02); }
     .item-meta { font-size:12px; color:var(--muted); }
+    .sales-table-row { display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px solid var(--line); border-radius:10px; margin-bottom:8px; background:rgba(15,118,110,.02); cursor:pointer; transition:.2s; }
+    .sales-table-row:hover { background:rgba(15,118,110,.08); }
+    .sales-table-content { flex:1; }
+    .sales-table-delete { padding:6px 12px; font-size:11px; }
     @media(max-width:760px) {
       body { padding:10px; }
       .layout { grid-template-columns:1fr; }
@@ -195,42 +199,42 @@
             </div>
           </div>
 
-          <div class="grid-2">
-            <div>
-              <label>Item Category</label>
-              <select id="itemSelect">
-                <optgroup label="Gents Items">
-                </optgroup>
-                <optgroup label="Ladies Items">
-                </optgroup>
-                <optgroup label="Winter Items">
-                </optgroup>
-                <optgroup label="Bedding and Covers">
-                </optgroup>
-                <optgroup label="Household">
-                </optgroup>
-              </select>
-            </div>
-            <div>
-              <label>Delivery Date</label>
-              <input id="deliveryDate" type="date">
-            </div>
-          </div>
-
-          <div class="grid-2">
-            <div>
-              <label>Received Date</label>
-              <input id="receivedDate" type="date" readonly>
-            </div>
-          </div>
-
           <label style="margin-top:16px;">Service Type</label>
           <div class="service-tabs">
             <button id="pcTab" class="active" type="button" onclick="setMode('Per Pc')">Per Piece</button>
             <button id="kgTab" type="button" onclick="setMode('Per Kg')">By Weight</button>
           </div>
 
-          <div id="pcSection">
+          <div id="pcCategorySection">
+            <div class="grid-2">
+              <div>
+                <label>Item Category</label>
+                <select id="itemSelectPc">
+                  <optgroup label="Gents Items">
+                  </optgroup>
+                  <optgroup label="Ladies Items">
+                  </optgroup>
+                  <optgroup label="Winter Items">
+                  </optgroup>
+                  <optgroup label="Bedding and Covers">
+                  </optgroup>
+                  <optgroup label="Household">
+                  </optgroup>
+                </select>
+              </div>
+              <div>
+                <label>Delivery Date</label>
+                <input id="deliveryDate" type="date">
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <label>Received Date</label>
+                <input id="receivedDate" type="date" readonly>
+              </div>
+            </div>
+
             <div class="grid-2">
               <div>
                 <label>Service</label>
@@ -249,16 +253,28 @@
             <button class="btn full" type="button" onclick="addPcItem()">＋ Add item to bill</button>
           </div>
 
-          <div id="kgSection" hidden>
+          <div id="kgCategorySection" hidden>
             <div class="grid-2">
               <div>
-                <label>Service</label>
-                <select id="kgService">
-                  <option value="Wash & Fold|70">Wash &amp; Fold (₹70/kg)</option>
-                  <option value="Wash & Iron|90">Wash &amp; Iron (₹90/kg)</option>
-                  <option value="Dry Clean|140">Dry Clean (₹140/kg)</option>
+                <label>Item Category</label>
+                <select id="itemSelectKg">
+                  <optgroup label="Wash & Fold">
+                  </optgroup>
+                  <optgroup label="Wash & Iron">
+                  </optgroup>
+                  <optgroup label="Bedsheets">
+                  </optgroup>
+                  <optgroup label="Towels">
+                  </optgroup>
                 </select>
               </div>
+              <div>
+                <label>Delivery Date</label>
+                <input id="deliveryDateKg" type="date">
+              </div>
+            </div>
+
+            <div class="grid-2">
               <div>
                 <label>Weight (Kg)</label>
                 <input id="weightQty" type="number" min="0.5" step="0.5" value="1">
@@ -417,25 +433,7 @@
 
         <div class="sales-table">
           <label>All Bills</label>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Bill No</th>
-                  <th>Customer</th>
-                  <th>Phone</th>
-                  <th>Items</th>
-                  <th>Amount</th>
-                  <th>Received Date</th>
-                  <th>Delivery Date</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody id="salesTableBody">
-                <tr><td colspan="8" class="empty">No bills saved</td></tr>
-              </tbody>
-            </table>
-          </div>
+          <div id="salesBillsList"></div>
         </div>
       </div>
     </div>
@@ -456,7 +454,8 @@
   <script>
     let cart = [], mode = 'Per Pc', billCounter = parseInt(localStorage.getItem('cnfBillCounter') || '100');
     const serviceNames = ['Wash & Fold','Wash & Iron','Dry Clean','Steam Press'];
-    const categories = ['Gents Items','Ladies Items','Winter Items','Bedding and Covers','Household'];
+    const pcCategories = ['Gents Items','Ladies Items','Winter Items','Bedding and Covers','Household'];
+    const kgCategories = ['Wash & Fold','Wash & Iron','Bedsheets','Towels'];
     const money = value => '₹' + Math.round(Number(value) || 0).toLocaleString('en-IN');
     const $ = id => document.getElementById(id);
 
@@ -479,18 +478,34 @@
 
     function initializeCategories() {
       const items = getCustomItems();
-      categories.forEach(cat => {
+      pcCategories.forEach(cat => {
+        if (!items[cat]) items[cat] = [];
+      });
+      kgCategories.forEach(cat => {
         if (!items[cat]) items[cat] = [];
       });
       saveCustomItems(items);
     }
 
-    function refreshItemDropdown() {
+    function refreshItemDropdowns() {
       const items = getCustomItems();
-      const select = $('itemSelect');
       
-      categories.forEach(catName => {
-        const optgroup = Array.from(select.querySelectorAll('optgroup')).find(g => g.label === catName);
+      // Refresh PC categories
+      pcCategories.forEach(catName => {
+        const optgroup = Array.from($('itemSelectPc').querySelectorAll('optgroup')).find(g => g.label === catName);
+        if (optgroup) {
+          optgroup.innerHTML = '';
+          const catItems = items[catName] || [];
+          catItems.forEach(item => {
+            const optionValue = `${item.name}|${item.prices.join('|')}`;
+            optgroup.appendChild(new Option(item.name, optionValue));
+          });
+        }
+      });
+
+      // Refresh KG categories
+      kgCategories.forEach(catName => {
+        const optgroup = Array.from($('itemSelectKg').querySelectorAll('optgroup')).find(g => g.label === catName);
         if (optgroup) {
           optgroup.innerHTML = '';
           const catItems = items[catName] || [];
@@ -507,7 +522,7 @@
       const manager = $('customItemManager');
       manager.innerHTML = '<option value="">Select an item to delete</option>';
       
-      categories.forEach(catName => {
+      [...pcCategories, ...kgCategories].forEach(catName => {
         const catItems = items[catName] || [];
         catItems.forEach(item => {
           const value = `${catName}|${item.name}`;
@@ -528,7 +543,7 @@
       const customerPhone = $('custPhone').value.trim();
       const total = $('grandTotal').textContent;
       const receivedDate = $('receivedDate').value || getCurrentDate();
-      const deliveryDate = $('deliveryDate').value;
+      const deliveryDate = mode === 'Per Pc' ? $('deliveryDate').value : $('deliveryDateKg').value;
       const extraCharge = Number($('extraCharge').value || 0);
       const discount = Number($('discount').value || 0);
 
@@ -569,7 +584,7 @@
         return;
       }
 
-      saved.slice(0, 5).forEach((bill, index) => {
+      saved.slice(0, 5).forEach((bill) => {
         const div = document.createElement('div');
         div.className = 'bill-item';
         div.innerHTML = `
@@ -581,7 +596,6 @@
             <div><strong>${bill.total}</strong></div>
             <div class="meta">${bill.customerPhone || 'No phone'}</div>
           </div>
-          <button type="button" class="btn danger bill-item-delete" onclick="deleteSavedBill(${index}); event.stopPropagation();">Delete</button>
         `;
         div.title = `Saved on ${new Date(bill.timestamp).toLocaleString()}`;
         div.addEventListener('click', () => loadSavedBill(bill));
@@ -594,41 +608,38 @@
       const saved = getSavedBills();
       saved.splice(index, 1);
       localStorage.setItem('cnfSavedBills', JSON.stringify(saved));
-      renderSavedBills();
       renderSalesTable();
       showToast('Bill deleted');
     }
 
     function renderSalesTable() {
       const saved = getSavedBills();
-      const tbody = $('salesTableBody');
-      tbody.innerHTML = '';
+      const container = $('salesBillsList');
+      container.innerHTML = '';
 
       if (!saved.length) {
-        tbody.innerHTML = '<tr><td colspan="8" class="empty">No bills saved</td></tr>';
+        container.innerHTML = '<div class="empty">No bills saved</div>';
         $('totalBillsCount').textContent = '0';
         $('totalRevenueAmount').textContent = '₹0';
         return;
       }
 
       let totalRevenue = 0;
-      saved.forEach(bill => {
-        const tr = document.createElement('tr');
-        tr.style.cursor = 'pointer';
+      saved.forEach((bill, index) => {
         const amount = Number(String(bill.total).replace(/[₹,]/g, '')) || 0;
         totalRevenue += amount;
-        tr.innerHTML = `
-          <td>${bill.billNo}</td>
-          <td>${bill.customerName}</td>
-          <td>${bill.customerPhone || '-'}</td>
-          <td>${bill.items ? bill.items.length : 0}</td>
-          <td>${bill.total}</td>
-          <td>${bill.receivedDate || '-'}</td>
-          <td>${bill.deliveryDate || '-'}</td>
-          <td>${new Date(bill.timestamp).toLocaleDateString('en-IN')}</td>
+        
+        const row = document.createElement('div');
+        row.className = 'sales-table-row';
+        row.innerHTML = `
+          <div class="sales-table-content">
+            <div><strong>${bill.billNo}</strong> | ${bill.customerName}</div>
+            <div class="item-meta">${bill.customerPhone || '-'} • Items: ${bill.items ? bill.items.length : 0} • ${bill.total} • ${new Date(bill.timestamp).toLocaleDateString('en-IN')}</div>
+          </div>
+          <button type="button" class="btn danger sales-table-delete" onclick="deleteSavedBill(${index}); event.stopPropagation();">Delete</button>
         `;
-        tr.onclick = () => openBillDetail(bill);
-        tbody.appendChild(tr);
+        row.addEventListener('click', () => openBillDetail(bill));
+        container.appendChild(row);
       });
 
       $('totalBillsCount').textContent = String(saved.length);
@@ -713,14 +724,14 @@
 
     function setMode(next) {
       mode = next;
-      $('pcSection').hidden = next !== 'Per Pc';
-      $('kgSection').hidden = next !== 'Per Kg';
+      $('pcCategorySection').hidden = next !== 'Per Pc';
+      $('kgCategorySection').hidden = next !== 'Per Kg';
       $('pcTab').classList.toggle('active', next === 'Per Pc');
       $('kgTab').classList.toggle('active', next === 'Per Kg');
     }
 
     function addPcItem() {
-      const data = $('itemSelect').value.split('|');
+      const data = $('itemSelectPc').value.split('|');
       const itemName = data[0];
       const idx = Number($('pcService').value);
       const qty = Math.max(1, parseInt($('itemQty').value) || 1);
@@ -747,20 +758,26 @@
     }
 
     function addKgItem() {
-      const data = $('kgService').value.split('|');
-      const serviceName = data[0];
-      const rate = Number(data[1]) || 0;
+      const itemName = $('itemSelectKg').value;
       const weight = Math.max(0.5, parseFloat($('weightQty').value) || 0);
 
-      if (!serviceName || !rate || weight <= 0) {
-        alert('Please enter a valid weight.');
+      if (!itemName || weight <= 0) {
+        alert('Please select an item and enter weight.');
+        return;
+      }
+
+      const data = itemName.split('|');
+      const rate = Number(data[1]) || 0;
+
+      if (!rate) {
+        alert('Invalid item selected.');
         return;
       }
 
       const total = rate * weight;
       cart.push({
-        name: 'By Weight',
-        serviceName,
+        name: data[0],
+        serviceName: 'By Weight',
         qty: weight,
         rate,
         total,
@@ -807,7 +824,7 @@
 
       $('customItemName').value = '';
       ['0','1','2','3'].forEach(id => $('customPrice' + id).value = 0);
-      refreshItemDropdown();
+      refreshItemDropdowns();
       refreshCustomManager();
       showToast('Item added to ' + category);
     }
@@ -824,7 +841,7 @@
       items[category] = (items[category] || []).filter(item => item.name !== name);
       saveCustomItems(items);
 
-      refreshItemDropdown();
+      refreshItemDropdowns();
       refreshCustomManager();
       showToast('Item deleted from ' + category);
     }
@@ -832,7 +849,7 @@
     function resetCustomItems() {
       if (!confirm('Delete all custom items?')) return;
       initializeCategories();
-      refreshItemDropdown();
+      refreshItemDropdowns();
       refreshCustomManager();
       showToast('All custom items reset');
     }
@@ -939,10 +956,12 @@
       $('custPhone').value = '';
       $('receivedDate').value = getCurrentDate();
       $('deliveryDate').value = '';
+      $('deliveryDateKg').value = '';
       $('discount').value = 0;
       $('extraCharge').value = 0;
       $('billNo').textContent = billNumber();
       $('paymentMode').value = 'Cash';
+      setMode('Per Pc');
       updateTable();
       renderSavedBills();
       showToast('New bill started');
@@ -965,7 +984,7 @@
     $('custPhone').addEventListener('input', updateTable);
     $('receivedDate').value = getCurrentDate();
     initializeCategories();
-    refreshItemDropdown();
+    refreshItemDropdowns();
     refreshCustomManager();
     $('billNo').textContent = billNumber();
     populateCustomers();
