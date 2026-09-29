@@ -82,7 +82,7 @@
     .saved { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); }
     .saved select { margin-top:7px; }
     .saved-bills-list { margin-top:10px; max-height:220px; overflow:auto; display:grid; gap:8px; }
-    .bill-item { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:rgba(15,118,110,.02); cursor:pointer; transition:.2s; }
+    .bill-item { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:rgba(15,118,110,.02); cursor:pointer; }
     .bill-item:hover { background:rgba(15,118,110,.08); }
     .bill-item .meta { font-size:12px; color:var(--muted); }
     .bill-item-content { flex:1; cursor:pointer; }
@@ -109,7 +109,7 @@
     .items-list { margin-top:10px; display:grid; gap:8px; }
     .items-list div { border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:rgba(15,118,110,.02); }
     .item-meta { font-size:12px; color:var(--muted); }
-    .sales-table-row { display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px solid var(--line); border-radius:10px; margin-bottom:8px; background:rgba(15,118,110,.02); cursor:pointer; transition:.2s; }
+    .sales-table-row { display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px solid var(--line); border-radius:10px; margin-bottom:8px; background:rgba(15,118,110,.02); }
     .sales-table-row:hover { background:rgba(15,118,110,.08); }
     .sales-table-content { flex:1; }
     .sales-table-delete { padding:6px 12px; font-size:11px; }
@@ -128,7 +128,7 @@
       .nav-tabs { gap:4px; }
       .nav-btn { padding:6px 10px; font-size:12px; }
     }
-    @media print { body { padding:0; background:#fff; } .topbar,.entry-card,.actions,.saved,.no-print,.nav-tabs,.modal-backdrop { display:none!important; } .layout { display:block; } .card { box-shadow:none; border:none; } }
+    @media print { body { padding:0; background:#fff; } .topbar,.entry-card,.actions,.saved,.no-print,.nav-tabs,.modal-backdrop { display:none!important; } .layout { display:block; } .card { box-shadow:none; border:0; } }
   </style>
 </head>
 <body>
@@ -471,28 +471,52 @@
       saveCustomItems(items);
     }
 
+    function encodeItemSelection(category, item) {
+      return JSON.stringify({ category, name: item.name, prices: item.prices || [] });
+    }
+
+    function encodeItemReference(category, name) {
+      return JSON.stringify({ category, name });
+    }
+
+    function parseSelectionValue(rawValue) {
+      if (!rawValue) return null;
+      try {
+        const parsed = JSON.parse(rawValue);
+        if (parsed && parsed.name) return parsed;
+      } catch (error) {}
+
+      const parts = String(rawValue).split('|');
+      if (parts.length >= 5) {
+        return {
+          category: '',
+          name: parts[0],
+          prices: parts.slice(1).map(value => Number(value) || 0)
+        };
+      }
+      return null;
+    }
+
     function populateDropdowns() {
       const items = getCustomItems();
-      
-      // Populate PC dropdown
+
       const pcSelect = $('itemSelectPc');
       pcSelect.innerHTML = '<option value="">-- Select Item --</option>';
       pcCategories.forEach(catName => {
         const catItems = items[catName] || [];
         catItems.forEach(item => {
-          const optionValue = `${item.name}|${item.prices.join('|')}`;
+          const optionValue = encodeItemSelection(catName, item);
           const option = new Option(`${catName}: ${item.name}`, optionValue);
           pcSelect.appendChild(option);
         });
       });
 
-      // Populate KG dropdown
       const kgSelect = $('itemSelectKg');
       kgSelect.innerHTML = '<option value="">-- Select Item --</option>';
       kgCategories.forEach(catName => {
         const catItems = items[catName] || [];
         catItems.forEach(item => {
-          const optionValue = `${item.name}|${item.prices.join('|')}`;
+          const optionValue = encodeItemSelection(catName, item);
           const option = new Option(`${catName}: ${item.name}`, optionValue);
           kgSelect.appendChild(option);
         });
@@ -503,11 +527,11 @@
       const items = getCustomItems();
       const manager = $('customItemManager');
       manager.innerHTML = '<option value="">Select an item to delete</option>';
-      
+
       [...pcCategories, ...kgCategories].forEach(catName => {
         const catItems = items[catName] || [];
         catItems.forEach(item => {
-          const value = `${catName}|${item.name}`;
+          const value = encodeItemReference(catName, item.name);
           const option = new Option(`${catName} → ${item.name}`, value);
           manager.appendChild(option);
         });
@@ -610,7 +634,7 @@
       saved.forEach((bill, index) => {
         const amount = Number(String(bill.total).replace(/[₹,]/g, '')) || 0;
         totalRevenue += amount;
-        
+
         const row = document.createElement('div');
         row.className = 'sales-table-row';
         row.innerHTML = `
@@ -717,17 +741,16 @@
     }
 
     function addPcItem() {
-      const selectValue = $('itemSelectPc').value;
-      if (!selectValue) {
+      const selected = parseSelectionValue($('itemSelectPc').value);
+      if (!selected) {
         alert('Please select an item.');
         return;
       }
 
-      const data = selectValue.split('|');
-      const itemName = data[0];
+      const itemName = selected.name;
       const idx = Number($('pcService').value);
       const qty = Math.max(1, parseInt($('itemQty').value) || 1);
-      const rate = Number(data[idx + 1]) || 0;
+      const rate = Number(selected.prices[idx]) || 0;
 
       if (!itemName || !rate) {
         alert('Please select a valid item and service with a price set.');
@@ -750,16 +773,15 @@
     }
 
     function addKgItem() {
-      const selectValue = $('itemSelectKg').value;
-      if (!selectValue) {
+      const selected = parseSelectionValue($('itemSelectKg').value);
+      if (!selected) {
         alert('Please select an item.');
         return;
       }
 
-      const data = selectValue.split('|');
-      const itemName = data[0];
+      const itemName = selected.name;
       const weight = Math.max(0.5, parseFloat($('weightQty').value) || 0);
-      const rate = Number(data[1]) || 0;
+      const rate = Number(selected.prices[0]) || 0;
 
       if (!itemName || !rate || weight <= 0) {
         alert('Please select an item with a price set and enter weight.');
@@ -803,7 +825,7 @@
 
       const items = getCustomItems();
       const catItems = items[category] || [];
-      
+
       const exists = catItems.some(item => item.name === name);
       if (exists) {
         alert('This item already exists in ' + category);
@@ -828,7 +850,24 @@
         return;
       }
 
-      const [category, name] = selected.split('|');
+      let category = '';
+      let name = '';
+
+      try {
+        const parsed = JSON.parse(selected);
+        category = parsed.category;
+        name = parsed.name;
+      } catch (error) {
+        const legacy = String(selected).split('|');
+        category = legacy[0] || '';
+        name = legacy[1] || '';
+      }
+
+      if (!category || !name) {
+        alert('Please select a valid item to delete.');
+        return;
+      }
+
       const items = getCustomItems();
       items[category] = (items[category] || []).filter(item => item.name !== name);
       saveCustomItems(items);
@@ -954,7 +993,6 @@
       setTimeout(() => t.classList.remove('show'), 2200);
     }
 
-    // Initialize
     $('custName').addEventListener('input', updateTable);
     $('custPhone').addEventListener('input', updateTable);
     $('receivedDate').value = getCurrentDate();
