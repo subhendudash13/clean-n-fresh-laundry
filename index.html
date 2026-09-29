@@ -209,17 +209,8 @@
             <div class="grid-2">
               <div>
                 <label>Item Category</label>
-                <select id="itemSelectPc">
-                  <optgroup label="Gents Items">
-                  </optgroup>
-                  <optgroup label="Ladies Items">
-                  </optgroup>
-                  <optgroup label="Winter Items">
-                  </optgroup>
-                  <optgroup label="Bedding and Covers">
-                  </optgroup>
-                  <optgroup label="Household">
-                  </optgroup>
+                <select id="itemSelectPc" onchange="onCategoryChange()">
+                  <option value="">-- Select Item --</option>
                 </select>
               </div>
               <div>
@@ -257,15 +248,8 @@
             <div class="grid-2">
               <div>
                 <label>Item Category</label>
-                <select id="itemSelectKg">
-                  <optgroup label="Wash & Fold">
-                  </optgroup>
-                  <optgroup label="Wash & Iron">
-                  </optgroup>
-                  <optgroup label="Bedsheets">
-                  </optgroup>
-                  <optgroup label="Towels">
-                  </optgroup>
+                <select id="itemSelectKg" onchange="onCategoryChange()">
+                  <option value="">-- Select Item --</option>
                 </select>
               </div>
               <div>
@@ -487,33 +471,31 @@
       saveCustomItems(items);
     }
 
-    function refreshItemDropdowns() {
+    function populateDropdowns() {
       const items = getCustomItems();
       
-      // Refresh PC categories
+      // Populate PC dropdown
+      const pcSelect = $('itemSelectPc');
+      pcSelect.innerHTML = '<option value="">-- Select Item --</option>';
       pcCategories.forEach(catName => {
-        const optgroup = Array.from($('itemSelectPc').querySelectorAll('optgroup')).find(g => g.label === catName);
-        if (optgroup) {
-          optgroup.innerHTML = '';
-          const catItems = items[catName] || [];
-          catItems.forEach(item => {
-            const optionValue = `${item.name}|${item.prices.join('|')}`;
-            optgroup.appendChild(new Option(item.name, optionValue));
-          });
-        }
+        const catItems = items[catName] || [];
+        catItems.forEach(item => {
+          const optionValue = `${item.name}|${item.prices.join('|')}`;
+          const option = new Option(`${catName}: ${item.name}`, optionValue);
+          pcSelect.appendChild(option);
+        });
       });
 
-      // Refresh KG categories
+      // Populate KG dropdown
+      const kgSelect = $('itemSelectKg');
+      kgSelect.innerHTML = '<option value="">-- Select Item --</option>';
       kgCategories.forEach(catName => {
-        const optgroup = Array.from($('itemSelectKg').querySelectorAll('optgroup')).find(g => g.label === catName);
-        if (optgroup) {
-          optgroup.innerHTML = '';
-          const catItems = items[catName] || [];
-          catItems.forEach(item => {
-            const optionValue = `${item.name}|${item.prices.join('|')}`;
-            optgroup.appendChild(new Option(item.name, optionValue));
-          });
-        }
+        const catItems = items[catName] || [];
+        catItems.forEach(item => {
+          const optionValue = `${item.name}|${item.prices.join('|')}`;
+          const option = new Option(`${catName}: ${item.name}`, optionValue);
+          kgSelect.appendChild(option);
+        });
       });
     }
 
@@ -730,15 +712,25 @@
       $('kgTab').classList.toggle('active', next === 'Per Kg');
     }
 
+    function onCategoryChange() {
+      // This function is called when category changes to update service if needed
+    }
+
     function addPcItem() {
-      const data = $('itemSelectPc').value.split('|');
+      const selectValue = $('itemSelectPc').value;
+      if (!selectValue) {
+        alert('Please select an item.');
+        return;
+      }
+
+      const data = selectValue.split('|');
       const itemName = data[0];
       const idx = Number($('pcService').value);
       const qty = Math.max(1, parseInt($('itemQty').value) || 1);
       const rate = Number(data[idx + 1]) || 0;
 
       if (!itemName || !rate) {
-        alert('Please select a valid item and service.');
+        alert('Please select a valid item and service with a price set.');
         return;
       }
 
@@ -758,25 +750,25 @@
     }
 
     function addKgItem() {
-      const itemName = $('itemSelectKg').value;
-      const weight = Math.max(0.5, parseFloat($('weightQty').value) || 0);
-
-      if (!itemName || weight <= 0) {
-        alert('Please select an item and enter weight.');
+      const selectValue = $('itemSelectKg').value;
+      if (!selectValue) {
+        alert('Please select an item.');
         return;
       }
 
-      const data = itemName.split('|');
+      const data = selectValue.split('|');
+      const itemName = data[0];
+      const weight = Math.max(0.5, parseFloat($('weightQty').value) || 0);
       const rate = Number(data[1]) || 0;
 
-      if (!rate) {
-        alert('Invalid item selected.');
+      if (!itemName || !rate || weight <= 0) {
+        alert('Please select an item with a price set and enter weight.');
         return;
       }
 
       const total = rate * weight;
       cart.push({
-        name: data[0],
+        name: itemName,
         serviceName: 'By Weight',
         qty: weight,
         rate,
@@ -824,9 +816,9 @@
 
       $('customItemName').value = '';
       ['0','1','2','3'].forEach(id => $('customPrice' + id).value = 0);
-      refreshItemDropdowns();
+      populateDropdowns();
       refreshCustomManager();
-      showToast('Item added to ' + category);
+      showToast('Item "' + name + '" added to ' + category);
     }
 
     function removeCustomItem() {
@@ -841,7 +833,7 @@
       items[category] = (items[category] || []).filter(item => item.name !== name);
       saveCustomItems(items);
 
-      refreshItemDropdowns();
+      populateDropdowns();
       refreshCustomManager();
       showToast('Item deleted from ' + category);
     }
@@ -849,7 +841,7 @@
     function resetCustomItems() {
       if (!confirm('Delete all custom items?')) return;
       initializeCategories();
-      refreshItemDropdowns();
+      populateDropdowns();
       refreshCustomManager();
       showToast('All custom items reset');
     }
@@ -889,23 +881,6 @@
       billCounter++;
       localStorage.setItem('cnfBillCounter', String(billCounter));
       return 'CnF-' + billCounter;
-    }
-
-    function saveCustomer() {
-      const name = $('custName').value.trim();
-      const phone = $('custPhone').value.trim();
-      if (!name || !phone) {
-        alert('Please enter customer name and mobile number.');
-        return;
-      }
-      const customers = JSON.parse(localStorage.getItem('cnfCustomers') || '[]');
-      const existing = customers.find(item => item.phone === phone);
-      if (!existing) {
-        customers.push({ name, phone });
-        localStorage.setItem('cnfCustomers', JSON.stringify(customers));
-      }
-      populateCustomers();
-      showToast('Customer saved');
     }
 
     function populateCustomers() {
@@ -984,7 +959,7 @@
     $('custPhone').addEventListener('input', updateTable);
     $('receivedDate').value = getCurrentDate();
     initializeCategories();
-    refreshItemDropdowns();
+    populateDropdowns();
     refreshCustomManager();
     $('billNo').textContent = billNumber();
     populateCustomers();
